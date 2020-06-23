@@ -6,6 +6,11 @@ from graphene import relay
 from django.contrib.auth.models import User
 from graphene.relay.node import from_global_id
 import datetime
+from django.core.files import File
+from django.template.loader import get_template 
+from django.template import Context
+import pdfkit
+import os
 
 class UserNode(DjangoObjectType):
     class Meta:
@@ -76,6 +81,25 @@ class MInput(graphene.InputObjectType):
 
 
 
+def GenerateBill(gross,invoice_number,medicines,discount,cgst,total,bill):
+    print("invoice ...")
+    print(invoice_number)
+    template = get_template("x.html")
+    context = {"gross":gross,"medicines": medicines,"discount":discount,"cgst":cgst,"sgst":cgst,"total":total,"invoice":invoice_number,"bill":bill}
+    html = template.render(context)
+    options = {
+    'page-size': 'A5',
+    'margin-top': '50px',
+    'margin-right': '50px',
+    'margin-bottom': '50px',
+    'margin-left': '50px',
+    'orientation':'landscape'
+    }
+    pdfkit.from_string(html, '{}.pdf'.format(invoice_number),options=options)
+    
+
+
+
 
 class CreateBill(graphene.Mutation):
     class Arguments:
@@ -91,6 +115,7 @@ class CreateBill(graphene.Mutation):
         bill = Billing.objects.create( 
             user_id=1,invoice_number="INV#{}".format(user_id),patient_id=user_id,payment_mode=payment_mode,billing_date=datetime.datetime.strptime(billing_date,"%Y-%m-%d")
             )
+        bill.invoice_number = "INV#{}-{}".format(bill.id,user_id)
 
         gross = total = discount = cgst =  0.0
 
@@ -124,9 +149,15 @@ class CreateBill(graphene.Mutation):
         bill.cgst = cgst/2
         bill.sgst = cgst/2
         bill.net_amount = total
-        bill.save() 
-        
+        # bill.save() 
 
+        GenerateBill(gross,bill.invoice_number,Medicine.objects.filter(billing_id=bill.id),discount,cgst,total,bill)
+        pdfname = "{}.pdf".format(bill.invoice_number)
+        # print(pdfname)
+        with open(pdfname,'rb') as pdf:
+            bill.invoice.save(pdfname,File(pdf),save=True)
+        bill.save()
+        os.remove(pdfname)
         return CreateBill(bill=bill)
 
 

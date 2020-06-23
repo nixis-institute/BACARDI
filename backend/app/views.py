@@ -22,6 +22,9 @@ def pdfCreate(request):
     'margin-left': '50px',
     }
 
+    #In [35]: with open("a.pdf", 'rb') as doc_file: 
+    #...:     bill.invoice.save("x.pdf",File(doc_file),save=True)
+
 
     pdfkit.from_string(html, 'out.pdf',options=options)
     pdf = open("out.pdf",encoding="utf-8")

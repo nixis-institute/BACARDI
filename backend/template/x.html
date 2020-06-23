@@ -83,26 +83,26 @@
         border-top:1px solid #dbdbdb
     }
 </style>
-<div>
+<div style="padding: 5px;">
     <div>
         <div>
             <div style="overflow: auto;"}}>
-                <div style="float:left">
+                <div style="float:left;width: 50%;">
                     <span class="title" >Rama Medicose</span>
                     <span class="text">T-23 Shanti Nager Delhi</span>
                     <span class="text">9878987678</span>
                     <span class="text">22AAPSO78213Z9</span>
                 </div>
-                <div style="float: right;text-align: right"}}>
+                <div style="float: right;text-align: right;width: 50%;"}}>
                     <span class="title">Inovice</span>
-                    <span class="text">Inovice Number : {invoiceNumber}</span>
-                    <span class="text"> Date : {date}</span>
+                    <span class="text">Inovice Number : {{bill.invoice_number}}</span>
+                    <span class="text"> Date : {{bill.billing_date}}</span>
                 </div>
             </div>
             <div style="margin-top:20px"}}>
                 <span style="font-size:20px"}}>Bill to</span>
-                <span class="text">Anuj Kumar (12)</span>
-                <span class="text">Male</span>
+                <span class="text">{{bill.patient.name}}</span>
+                <span class="text">{{bill.patient.sex}}</span>
             </div>
         </div>
 
@@ -126,122 +126,46 @@
                 </thead>
                 
                 <tbody>
+                    
+                    {% for i in medicines %}
                     <tr>
                         <td  style="width:5%">1</td>
-                        <td class="name">Anodyine</td>
-                        <td >5</td>
-                        <td >5</td>
-                        <td >23.4</td>
-                        <td >7.65</td>
-                        <td >7.65</td>
-                        <td >23.23</td> 
+                        <td class="name">{{i.medicine_name}}</td>
+                        <td >{{i.price}}</td>
+                        <td >{{i.quantity}}</td>
+                        <td >{{i.discount}}</td>
+                        <td >{{i.CGST}}</td>
+                        <td >{{i.SGST}}</td>
+                        <td >{{i.total}}</td> 
                     </tr>
+                    {% endfor %}
+
+
                     <tr>
-                        <td colspan="3" rowspan="6" style="vertical-align: middle;font-size: 22px;">Payment mode</td>
+                        <td colspan="3" rowspan="6" style="vertical-align: middle;font-size: 22px;">Payment mode : {{bill.payment_mode}}</td>
                     </tr>
                     <tr>
                         <td colspan="3">Gross Amount</td>
-                        <td colspan="3">sdf</td>
+                        <td colspan="3">{{bill.gross_amount}}</td>
                     </tr>
                     <tr>
                         <td colspan="3">Discount</td>
-                        <td colspan="3">0</td>
+                        <td colspan="3">{{bill.discount}}</td>
                     </tr>
                     <tr>
                         <td colspan="3">CGST</td>
-                        <td colspan="3">0</td>
+                        <td colspan="3">{{bill.cgst}}</td>
                     </tr>
                     <tr>
                         <td colspan="3">SGST</td>
-                        <td colspan="3">sdf</td>
+                        <td colspan="3">{{bill.sgst}}</td>
                     </tr>
                     <tr>
                         <td colspan="3">Net Amount</td>
-                        <td colspan="3">0</td>
+                        <td colspan="3">{{bill.net_amount}}</td>
                     </tr>
-
-
-
-
-
-
                 </tbody>
             </table>
         </div>
-
-        <!-- <div style="margin-top: 30px;">
-            <div class="row">
-                <span class="th" style="width:5%">SN.</span>
-                <span class="th name" >Name</span>
-                <span class="th">MRP</span>
-                <span class="th">Qty</span>
-                <span class="th">Discount</span>
-                <span class="th">SGST</span>
-                <span class="th">CGST</span>
-                <span class="th">Total</span>
-            </div>
-
-
-
-            <div class="row">
-                <span class="td" style="width:5%">{i+1}</span>
-                <span class="td name">{item.name}</span>
-                <span class="td">{item.price}</span>
-                <span class="td">{item.qty}</span>
-                <span class="td">{(item.price*item.qty*item.discount/100).toFixed(2)}</span>
-                <span class="td">{(item.price*item.qty*gst/100/2).toFixed(2)}</span>
-                <span class="td">{(item.price*item.qty*gst/100/2).toFixed(2)}</span>
-                <span class="td">{(item.qty * item.price).toFixed(2) - (item.price*item.qty*item.discount/100).toFixed(2)}</span>
-            </div>
-
-
-            <div class="row">
-                <span class="td" style="width:50%;font-size:15px;text-transform:capitalize;border-top:1px solid #dbdbdb">
-                    Payment Mode: {paymentmode}
-                </span>
-                <div style="display:flex;flex-direction:column;width:50%">
-                    <div class="row">
-                        <span class="leftConent">
-                            Gross Amount
-                        </span>
-                        <span class="rightContent"> {totals.gross} </span>
-                    </div>
-
-                    <div class="row">
-                        <span class="leftConent">
-                            Discount
-                        </span>
-                        <span class="rightContent">{totals.discount} </span>
-                    </div>
-
-                    <div class="row">
-                        <span class="leftConent">
-                            CGST
-                        </span>
-                        <span class="rightContent"> {totals.gst} </span>
-                    </div>
-
-                    <div class="row">
-                        <span class="leftConent">
-                            SGST
-                        </span>
-                        <span class="rightContent">{totals.gst} </span>
-                    </div>
-
-                    <div class="row">
-                        <span class="leftConent",style="font-size:13px"}}>
-                            Net Amount
-                        </span>
-                        <span class="rightContent" style="font-size:13px">{totals.total} INR</span>
-                    </div>
-                </div>
-            </div>
-
-
-
-
-
-
-        </div> -->
     </div>
 </div>

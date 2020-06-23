@@ -7,5 +7,6 @@ backend/app/__pycache__/
 backend/app/migrations/
 backend/py3/
 backend/invoices/
+backend/media/
 
 #frontend

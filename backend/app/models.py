@@ -26,6 +26,10 @@ class Product(models.Model):
     purchase_from = models.CharField(max_length=100)
     GST = models.FloatField(default=0)
     type_of_packing = models.CharField(max_length=30)
+    discount = models.FloatField(blank=True,default=0)
+    hsn = models.CharField(max_length=20,null=True,blank=True)
+    batch = models.CharField(max_length=20,null=True,blank=True)
+    mfg = models.CharField(max_length=50,null=True,blank=True)
     def __str__(self):
         return self.name
 

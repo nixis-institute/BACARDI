@@ -1,0 +1,49 @@
+.custom-brand{
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+
+}
+
+.navbar{
+    border:1px solid rgba(0,0,0,0.2)
+}
+.data-item{
+    padding: 10px;
+}
+.sidebar{
+    /* padding: 10px; */
+        /* width: 10%; */
+    /* background: rgba(0,0,0,0.08); */
+    /* padding-top: 10px; */
+    height: 100vh;
+    width: 10%;
+}
+
+.item div{
+    font-size: 15px;
+    padding: 0.5rem 0.75rem;
+    line-height: 1.5;
+    cursor: pointer;
+}
+
+.item :hover{
+    background-color: white;
+    /* background-color: lightblue; */
+}
+
+._side{
+position: fixed;
+width: 10%;
+height: 100%;
+background:  rgba(0,0,0,0.08);
+padding-top:10px;
+
+}
+._side .active{
+    background-color: white;
+}
+
+.main-container{
+    padding: 0 10px 10px 10px;
+}

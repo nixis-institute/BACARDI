@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router'
-import Layout from '../../components/layout'
+import Layout from '../layout'
 import gql from 'graphql-tag';
 import { useQuery } from '@apollo/react-hooks'
 import {getProductByIdQuery} from '../../lib/graphql'

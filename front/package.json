@@ -40,9 +40,11 @@
   },
   "license": "ISC",
   "devDependencies": {
+    "@types/react": "^16.9.41",
     "eslint": "^7.2.0",
     "eslint-plugin-react-hooks": "^4.0.4",
     "redux": "^4.0.5",
-    "redux-devtools": "^3.5.0"
+    "redux-devtools": "^3.5.0",
+    "typescript": "^3.9.5"
   }
 }

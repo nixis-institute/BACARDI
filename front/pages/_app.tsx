@@ -1,9 +1,8 @@
-import '../components/main.css'
 import { ApolloProvider } from 'react-apollo'
 import client from '../lib/apolloClient'
 import 'bulma/css/bulma.css'
 import '../components/sidebar.css'
-
+import '../components/main.css'
 
 import React from 'react';
 import App, {AppInitialProps, AppContext} from 'next/app';

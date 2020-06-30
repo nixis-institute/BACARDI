@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'app',
     'corsheaders',
     'graphene_django',
+    'rest_framework',
     'graphene'
 ]
 
@@ -56,10 +57,19 @@ MIDDLEWARE = [
 
 GRAPHENE = {
     'SCHEMA': 'schema.schema', # Where your Graphene schema lives
-    # 'MIDDLEWARE': [
-    #     'graphql_jwt.middleware.JSONWebTokenMiddleware',
-    # ],    
+    'MIDDLEWARE': [
+        'graphql_jwt.middleware.JSONWebTokenMiddleware',
+    ],    
 }
+
+# GRAPHQL_JWT = {
+#     'JWT_VERIFY_EXPIRATION': False,
+#     # 'JWT_LONG_RUNNING_REFRESH_TOKEN': True,
+#     # 'JWT_EXPIRATION_DELTA': timedelta(minutes=5),
+#     # 'JWT_REFRESH_EXPIRATION_DELTA': timedelta(days=7),
+# }
+
+JWT_VERIFY_EXPIRATION = False
 
 ROOT_URLCONF = 'bacardi.urls'
 
@@ -92,6 +102,19 @@ DATABASES = {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
+}
+
+AUTHENTICATION_BACKENDS = [
+    'graphql_jwt.backends.JSONWebTokenBackend',
+    'django.contrib.auth.backends.ModelBackend',
+]
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ]
 }
 
 

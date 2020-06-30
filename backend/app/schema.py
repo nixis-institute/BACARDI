@@ -15,7 +15,8 @@ import os
 class UserNode(DjangoObjectType):
     class Meta:
         model = User
-        interfaces = (relay.Node,)
+        filter_fields=()
+        interfaces = (graphene.Node,)
         # interfaces = (relay.Node,)
 
 class ProductNode(DjangoObjectType):
@@ -208,20 +209,40 @@ class CreateUser(graphene.Mutation):
         Profile.objects.create(user_id = user.id)
         return CreateUser(user=user)
 
+import graphql_jwt
 
 class Mutation(graphene.ObjectType):
     create_user = CreateUser.Field()
     create_product = CreateProduct.Field()
     generate_bill = CreateBill.Field()
+    token_auth = graphql_jwt.ObtainJSONWebToken.Field()
 
 class Query(graphene.AbstractType):
     all_patient = graphene.List(PatientNode)
     all_products = DjangoFilterConnectionField(ProductNode)
     product_by_id = graphene.Field(ProductNode,id=graphene.ID())
     product_suggestion = graphene.List(ProductNode,suggestion=graphene.String())
-
     report = DjangoFilterConnectionField(BillingNode,min=graphene.String(),max=graphene.String())
+    history = DjangoFilterConnectionField(BillingNode,slug=graphene.String())
+    user = graphene.Field(UserNode)
 
+
+    def resolve_user(self,info):
+        print("..user..")
+        # user_id = info.context.user.id
+        print(info.context.user)
+        return User.objects.get(id = 1)
+
+    # def resol
+
+    def resolve_history(self,info,slug):
+        if(Billing.objects.filter(invoice_number__iexact=slug)):
+            return Billing.objects.filter(invoice_number__iexact=slug)
+        
+        return Billing.objects.filter(patient__name__iexact=slug)
+        
+        
+        # else if(Billing.objects.filter(patient__name__iexact="aman"))
 
     def resolve_report(self,info,min,max):
         return Billing.objects.filter(billing_date__range=[min,max]).order_by('-id')
@@ -232,6 +253,7 @@ class Query(graphene.AbstractType):
         return Product.objects.filter(name__icontains=suggestion)
 
     def resolve_all_products(self,info,**kwargs):
+        print(info.context.user)
         return Product.objects.all()
     
     def resolve_product_by_id(self,info,id):

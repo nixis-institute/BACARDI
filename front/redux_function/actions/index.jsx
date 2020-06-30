@@ -83,6 +83,11 @@ export const createProductSucess = (product) =>({
     payload:product
 })
 
+export const currentUser = (user) => ({
+    type:'GET_CURRENT_USER',
+    data:user
+})
+
 
 export const billGenerateLoading = () => ({
     type : 'BILL_LOADING'
@@ -122,3 +127,12 @@ export const fetchProductsFailure = error => ({
   type: FETCH_PRODUCTS_FAILURE,
   payload: { error }
 });
+
+export const setToken = () =>({
+    type:'SET_TOKEN',
+    token:localStorage.getItem("token")
+})
+
+export const getToken = () =>({
+    type :'GET_TOKEN'
+})

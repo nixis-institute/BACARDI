@@ -16,7 +16,7 @@ class Profile(models.Model):
     contact_number = models.CharField(max_length=10)
     email = models.EmailField()
     def __str__(self):
-        return "{} {}".format(firm_name,user.username)
+        return "{} {}".format(self.firm_name,self.user.username)
 
 class Product(models.Model):
     name = models.CharField(max_length=100)

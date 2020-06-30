@@ -1,11 +1,16 @@
-import ApolloClient  from 'apollo-boost'
-import { createHttpLink } from 'apollo-link-http';
+import ApolloClient  from 'apollo-client'
+import { createHttpLink,HttpLink } from 'apollo-link-http';
+// import {} from 'a'
 import { setContext } from 'apollo-link-context';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 // import ApolloClient, {createNetworkInterface} from 'apollo-client'
 
 // const server = "http://shoppingjunction.pythonanywhere.com/graphql/"
 const server ="http://localhost:8000/graphql/";
+// import ServerCookie from "next-cookies";
+import Cookie from 'js-cookie'
+
+
 // const networkinterface = createNetworkInterface({
 //   //uri:'http://localhost:8000/graphql/',
 //   uri:server,
@@ -41,23 +46,48 @@ const server ="http://localhost:8000/graphql/";
 
 
 
-const httpLink = createHttpLink({
+const httplink = createHttpLink({
     uri:server,
-    credentials: 'same-origin'
+    // credentials: 'same-origin'
+    // credentials: 'include'
   });
-  
-  const authLink = setContext((_, { headers }) => {
-    operation.setContext({
-      headers: {
-        authorization: token ? `Bearer sdfsdf` : ''
-      }
-    });
-    return forward(operation);
+// const l = new HttpLink({
+//   uri:server,
+//   // credentials:'include'
+// })
 
+  // const token = ServerCookie(ctx)["token"];
+
+  
+
+  // const token = "token";
+  const authLink = setContext((_, { headers }) => {
+    const token = Cookie.get("token") 
+    // console.log("this.is token fro cookie")
+    // console.log(token)
+    if(token.length<1){
+      token = ""
+    }
+
+
+    return {
+      headers:{
+        ...headers,
+        // 'Authorization':'JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiZXhwIjoxNTkzNTMwMzcwLCJvcmlnSWF0IjoxNTkzNTMwMDcwfQ.1s5p9ZT5W604Ka0i_iMoy2b-FuczbB3bxelB0w1UEx8'
+        // if(token.length>0){
+
+        // }
+        'Authorization':'JWT '+token
+        // 'Authorization':`JWT ${token}`
+      }
+    }
   });
+
+
 const client = new ApolloClient({
-    // link: authLink.concat(httpLink),
-    uri:server,
+    link: authLink.concat(httplink),
+    // uri:server,
+    // link:httplink,
     cache : new InMemoryCache(),
 })
 

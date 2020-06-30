@@ -18,6 +18,61 @@ export const getAllProductQuery = gql`
 `;
 
 
+export const currentUserQuery = gql`
+query x{
+  user{
+    id
+    username
+    firstName
+    lastName
+    email
+    profile{
+      firmName
+      GSTNo
+      TINNo
+      address
+      contactNumber
+    }
+  }
+}
+`
+
+export const getTokenQuery = gql`
+mutation($username:String!,$password:String!){
+  tokenAuth(username:$username,password:$password)
+  {
+    token
+  }
+}
+`
+
+
+export const historyBySlugQuery = gql`
+query x($slug:String!){
+  history(slug:$slug){
+    edges{
+      node{
+				discount
+        cgst
+        sgst
+        id
+        invoiceNumber
+        invoice
+        grossAmount
+        netAmount
+        paymentMode
+        billingDate
+        patient{
+          name
+          age
+          sex
+        }
+      }
+    }
+  }
+}`
+
+
 export const reportByDateRangeQuery = gql`
 query x($min:String!,$max:String!){
   report(min:$min,max:$max){

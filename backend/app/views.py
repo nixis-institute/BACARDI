@@ -6,6 +6,9 @@ import pdfkit
 
 # Create your views here.
 
+def example(request):
+    return render(request,"e.html")
+
 def home(request):
     return render(request,'x.html')
 

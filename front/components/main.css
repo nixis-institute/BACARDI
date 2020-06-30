@@ -39,7 +39,8 @@
 }
 
 ._list ._list-item:hover{
-    background-color: lightgray;
+    /* background-color: lightgray; */
+    border-right: 3px solid #00d1b2;
 }
 .left{
     float: left;
@@ -58,6 +59,7 @@ display: block;
 font-size: 1rem;
 font-weight: 700;
 font-size: 13px;
+align-self: center;
 }
 
 .ctable th{

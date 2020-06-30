@@ -1,7 +1,6 @@
 import Layout from '../components/layout'
 import {useState} from 'react'
 import { useQuery,useLazyQuery } from '@apollo/react-hooks'
-
 import {reportByDateRangeQuery} from '../lib/graphql'
 
 
@@ -63,6 +62,7 @@ const Report = () =>{
                             </div>
                         </div>
                     </div>
+
                     <div className="data">
                     {loading===true
                     ?(<div style={{textAlign:'center',fontWeight:'bold',fontSize:'20px'}}>Loading...</div>):
@@ -90,11 +90,7 @@ const Report = () =>{
                                         <a href={`http://localhost:8000/media/${item.node.invoice}`} target="_blank">
                                             {item.node.invoiceNumber}
                                         </a>
-                                        
-                                        
                                         </td>
-
-
                                     <td>{item.node.billingDate}</td>
                                     <td>{item.node.patient.name}</td>
                                     <td>{item.node.grossAmount}</td>
@@ -102,17 +98,13 @@ const Report = () =>{
                                     <td>{item.node.cgst}</td>
                                     <td>{item.node.sgst}</td>
                                     <td>{item.node.netAmount}</td>
-                                    
                                 </tr>)
                             })}
                         </tbody>
                     </table>:
-                    
-                    <div style={{textAlign:'center',fontWeight:'bold',fontSize:'20px'}}>No Data Found</div>
-                                        
+                    <div style={{textAlign:'center',fontWeight:'bold',fontSize:'20px'}}>No Data Found</div>           
                     :<div></div>
                     }
-
 
                     </div>
 

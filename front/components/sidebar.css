@@ -2,11 +2,15 @@
     font-weight: bold;
     text-transform: uppercase;
     letter-spacing: 2px;
-
+    width: 100%;
+    text-align: center;
+}
+.navbar-item{
+    width: 100%;
 }
 
 .navbar{
-    border:1px solid rgba(0,0,0,0.2)
+    border-bottom:1px solid rgba(0,0,0,0.2)
 }
 .data-item{
     padding: 10px;
@@ -18,17 +22,21 @@
     /* padding-top: 10px; */
     height: 100vh;
     width: 10%;
+    z-index: 100;
+    /* border-right:1px solid rgba(0,0,0,0.08) */
 }
 
-.item div{
+.item .inner_block{
     font-size: 15px;
     padding: 0.5rem 0.75rem;
     line-height: 1.5;
     cursor: pointer;
+    display: flex;
 }
 
 .item :hover{
-    background-color: white;
+    /* border-right: 3px solid #00d1b2; */
+    /* background-color: white; */
     /* background-color: lightblue; */
 }
 
@@ -36,13 +44,43 @@
 position: fixed;
 width: 10%;
 height: 100%;
-background:  rgba(0,0,0,0.08);
+/* background:  rgba(0,0,0,0.08); */
 padding-top:10px;
-
+border-right: 1px solid rgba(0,0,0,0.08);
+background: white;
+box-shadow:1px 1px 5px rgba(0,0,0,0.2)
 }
+
+.item .label{
+    color:grey;
+    margin-left: 10px;
+}
+
+.icn-block{
+    width: 20px;
+}
+.active .label{
+    color:black
+}
+.item .icon_{
+    color: rgb(197, 196, 196);
+}
+
+.active .icon_{
+    color: black;
+}
+
+._side .item:hover{
+    background-color: white;
+    border-right: 1px solid #00d1b2;
+}
+
 ._side .active{
     background-color: white;
+    border-right: 3px solid #00d1b2;
 }
+
+
 
 .main-container{
     padding: 0 10px 10px 10px;

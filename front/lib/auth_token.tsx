@@ -34,9 +34,9 @@ export type DecodedToken = {
       // return false
       // console.log("--------");
       // console.log(this.token);
-      // return this.token!="undefined"?false:true
+      return this.token!="undefined"?false:true
       // console.log(new Date() > this.expiresAt);
-      return new Date() > this.expiresAt;
+      // return new Date() > this.expiresAt;
     }
   
     get isValid(): boolean {

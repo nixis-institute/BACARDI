@@ -18,6 +18,28 @@ export const getAllProductQuery = gql`
 `;
 
 
+export const updateCurrentUserQuery = gql`
+mutation x($gst:String!,$tin:String!,$firstName:String!,$lastName:String!,$phone:String!,$email:String!,$firm:String!,$address:String!){
+  updateUser(gst:$gst,tin:$tin,firstname:$firstName,lastname:$lastName,phone:$phone,email:$email,firmName:$firm,address:$address)
+  {
+    user{
+      id
+      username
+      firstName
+      lastName
+      email
+      profile{
+        firmName
+        GSTNo
+        TINNo
+        address
+        contactNumber
+      }
+    }
+  }
+}
+`
+
 export const currentUserQuery = gql`
 query x{
   user{

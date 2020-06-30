@@ -191,7 +191,36 @@ class CreateBill(graphene.Mutation):
         return CreateBill(bill=bill)
 
 
+
+class UpdateUser(graphene.Mutation):
+    class Arguments:
+        gst = graphene.String(required=True)
+        tin = graphene.String(required=True)
+        firm_name = graphene.String(required=True)
+        address = graphene.String(required=True)
+        email = graphene.String(required=True)
+        firstname = graphene.String(required=True)
+        lastname = graphene.String(required=True)
+        phone = graphene.String(required=True)
         
+    user = graphene.Field(UserNode)
+    def mutate(self,info,gst,tin,firm_name,address,email,firstname,lastname,phone):
+        userid = info.context.user.id
+        user = User.objects.get(id = userid)
+        user.first_name = firstname
+        user.last_name = lastname
+        user.email = email
+        user.save()
+        
+        profile = Profile.objects.get(user_id = userid)
+        profile.GST_no = gst
+        profile.TIN_no = tin
+        profile.address = address
+        profile.contact_number = phone
+        profile.save()
+        return UpdateUser(user = user)
+
+
 class CreateUser(graphene.Mutation):
     # user = graphene.Field(UserNode)
     class Arguments:
@@ -215,6 +244,7 @@ class Mutation(graphene.ObjectType):
     create_user = CreateUser.Field()
     create_product = CreateProduct.Field()
     generate_bill = CreateBill.Field()
+    update_user = UpdateUser.Field()
     token_auth = graphql_jwt.ObtainJSONWebToken.Field()
 
 class Query(graphene.AbstractType):
@@ -228,10 +258,10 @@ class Query(graphene.AbstractType):
 
 
     def resolve_user(self,info):
-        print("..user..")
+        # print("..user..")
         # user_id = info.context.user.id
         print(info.context.user)
-        return User.objects.get(id = 1)
+        return User.objects.get(id = info.context.user.id)
 
     # def resol
 

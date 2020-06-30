@@ -1,6 +1,44 @@
 import client from '../../lib/apolloClient';
 import { gql } from 'apollo-boost';
-import {getAllProductQuery,createProductQuery,generateBillQuery} from '../../lib/graphql'
+import {getAllProductQuery,createProductQuery,generateBillQuery, currentUserQuery, updateCurrentUserQuery} from '../../lib/graphql'
+
+
+
+export const getCurrentUser=()=>{
+    return dispatch=>{
+        dispatch(userLoading)
+        return client.query({
+            query:currentUserQuery
+        }).then((e)=>{
+            dispatch(currentUser(e.data.user))
+        }).catch((e)=>{
+            dispatch(userError(e))
+        })
+    }
+}
+
+export const updateUser = (data) =>{
+    return dispatch=>{
+        dispatch(userUpdateLoading());
+        return client.mutate({
+            mutation:updateCurrentUserQuery,
+            variables:{
+                "gst": data.gst,
+                "tin": data.tin,
+                "firstName": data.firstName,
+                "lastName": data.lastName,
+                "phone": data.phone,
+                "email": data.email,
+                "firm": data.firm,
+                "address": data.address                
+            }
+        }).then((e)=>{
+            dispatch(updatedUser(e.data.updateUser.user))
+        }).then((e)=>{
+            dispatch(userError(e))
+        })
+    }
+}
 
 
 
@@ -83,10 +121,30 @@ export const createProductSucess = (product) =>({
     payload:product
 })
 
+
+export const userLoading = () =>({
+    type:'USER_LOADING',
+})
+export const userError = (error) =>({
+    type:'USER_ERROR',
+    error:error
+})
 export const currentUser = (user) => ({
     type:'GET_CURRENT_USER',
     data:user
 })
+
+export const userUpdateLoading = () =>({
+    type:'USER_UPDATE_LOADING'
+})
+
+export const updatedUser = (user) =>({
+    type:'UPDATED_USER',
+    data:user
+
+})
+
+
 
 
 export const billGenerateLoading = () => ({

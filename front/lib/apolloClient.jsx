@@ -65,7 +65,7 @@ const httplink = createHttpLink({
     const token = Cookie.get("token") 
     // console.log("this.is token fro cookie")
     // console.log(token)
-    if(token.length<1){
+    if(token=="undefined"){
       token = ""
     }
 
@@ -77,8 +77,8 @@ const httplink = createHttpLink({
         // if(token.length>0){
 
         // }
-        'Authorization':'JWT '+token
-        // 'Authorization':`JWT ${token}`
+        // 'Authorization':'JWT '+token
+        'Authorization':`JWT ${token==undefined?"":token}`
       }
     }
   });

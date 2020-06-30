@@ -48,6 +48,19 @@
 .right{
     float: right;
 }
+.left-1{
+    width: 50%;
+    align-self: center;
+    font-size: 15px;
+}
+.right-1{
+    width: 50%;
+}
+.out{
+    overflow: auto;
+    display: flex;
+    padding: 5px;
+}
 ._list-item .right{
     font-size: 11px;
     font-weight: normal;

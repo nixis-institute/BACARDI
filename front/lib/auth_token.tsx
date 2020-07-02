@@ -57,6 +57,7 @@ export type DecodedToken = {
 
     static async storeToken(token: string) {
         Cookie.set("token", token);
+        localStorage.setItem("token",token)
         // var res = await client.query({
         //   query:currentUserQuery
         // })

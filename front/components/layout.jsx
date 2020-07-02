@@ -4,12 +4,14 @@ import {ApolloProvider} from 'react-apollo'
 import { ApolloProvider as ApolloHooksProvider } from '@apollo/react-hooks';
 import client from '../lib/apolloClient';
 // import Nav from './navbar';
-import { withRouter } from 'next/router'
+import { withRouter, Router } from 'next/router'
+// import Router:s from 'next/router'
+import Cookie from "js-cookie";
 import Navbar from './navbar';
 import LoadingOverlay from 'react-loading-overlay'
 import  {FontAwesomeIcon,}  from '@fortawesome/react-fontawesome'
 import { faTrashAlt,faEdit, faHospital, faBuilding } from '@fortawesome/free-regular-svg-icons'
-import {faHome, faList, faReceipt, faHistory, faUser} from '@fortawesome/free-solid-svg-icons'
+import {faHome, faList, faReceipt, faHistory, faUser, faSignOutAlt} from '@fortawesome/free-solid-svg-icons'
 // import { Provider } from 'react-redux'
 // import rootReducer from '../redux_function/reducers'
 // import {createStore} from 'redux'
@@ -31,8 +33,17 @@ class Layout extends React.Component{
     }
     
     
+    
 
     render(){
+        const Logout = () =>{
+            console.log("logout")
+            Cookie.remove("token")
+            // const r = Router()
+            // r.push("/login") 
+            // Router.push("/login")
+            this.props.router.push("/login")
+        }
         // const r = new Router()
         // console.log(r)
         
@@ -126,9 +137,16 @@ class Layout extends React.Component{
                                     </Link>
                                     
                                 </div>
-                                <div style={{position:'fixed',bottom:10}}>
-                                    <div>
-                                        admin
+                                <div style={{position:'fixed',bottom:10,width:'10%'}} className="_item_" onClick={Logout}>
+                                    <div  className="inner_block_" style={{
+                                        fontSize: "15px",
+                                        padding: "0.5rem 0.75rem",
+                                        lineHeight: "1.5",
+                                        cursor: "pointer",
+                                        display: "flex",
+}}>
+                                        <FontAwesomeIcon icon={faSignOutAlt} className="icon_" color="rgba(255,0,0,0.8)" />
+                                        <h1 className="label" style={{marginLeft:'10px',color:"rgba(255,0,0,0.8)"}}>Logout</h1>
 
                                     </div>
                                 </div>

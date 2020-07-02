@@ -11,6 +11,11 @@ const billReducer=(state={'loading':false,'error':null,'invoice':null,'link':nul
             return {
                 ...state,loading:false,error:action.error
             }
+        case 'CLEAR_BILL':{
+            return {
+                ...state,invoice:null,link:null
+            }
+        }
         default:
         return  state
     }

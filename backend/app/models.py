@@ -49,7 +49,7 @@ class Billing(models.Model):
     patient = models.ForeignKey(Patient,on_delete = models.CASCADE)
     # medicine = models. (Medicine,on_delete=models.CASCADE)
     payment_mode = models.CharField(max_length=100)
-    billing_date = models.DateField(auto_now_add=True,blank=True)
+    billing_date = models.DateField(blank=True)
     gross_amount = models.FloatField(null=True,blank=True)
     discount = models.FloatField(null=True,blank=True)
     cgst = models.FloatField(null=True,blank=True)
@@ -75,11 +75,11 @@ class Medicine(models.Model):
     def __str__(self):
         return self.medicine_name
 
-    # def save(self, *args, **kwargs):
-    #     super().save(*args, **kwargs)
-    #     p = Product.objects.get(id = self.medicine_name.id)
-    #     p.qty = p.qty - self.quantity
-    #     p.save()
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        p = Product.objects.get(id = self.medicine.id)
+        p.qty = p.qty - self.quantity
+        p.save()
 
     
 

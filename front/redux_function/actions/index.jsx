@@ -1,7 +1,35 @@
 import client from '../../lib/apolloClient';
 import { gql } from 'apollo-boost';
-import {getAllProductQuery,createProductQuery,generateBillQuery, currentUserQuery, updateCurrentUserQuery} from '../../lib/graphql'
+import Router from  'next/router'
+import {createUserQuery,getAllProductQuery,createProductQuery,generateBillQuery, currentUserQuery, updateCurrentUserQuery,getTokenQuery} from '../../lib/graphql'
 
+
+
+export const createNewUser = (data) =>{
+    return dispatch=>{
+        dispatch(userLoading())
+        return client.mutate({
+            mutation:createUserQuery,
+            variables:{
+                "username": data.username,
+                "password": data.password,
+                "firstName": data.first_name,
+                "lastName": data.last_name,
+                "email": data.email,
+                "phone": data.phone,
+                "gst": data.gst,
+                "tin": data.tin,
+                "firm": data.firm_name,
+                "address": data.address
+            }
+        }).then((e)=>{
+            dispatch(userCreated())
+            Router.push("/login")
+        }).catch((e)=>{
+            dispatch(userError())
+        })
+    }
+}
 
 
 export const getCurrentUser=()=>{
@@ -16,6 +44,12 @@ export const getCurrentUser=()=>{
         })
     }
 }
+
+// export const clearBill=()=>{
+//     return dispatch=>{
+        
+//     }
+// }
 
 export const updateUser = (data) =>{
     return dispatch=>{
@@ -39,6 +73,47 @@ export const updateUser = (data) =>{
         })
     }
 }
+
+export const getUserToken = (data) =>{
+    // console.log(data)
+    return dispatch=>{
+        dispatch(loginLoading());
+        // console.log(data)
+        return client.mutate({
+            mutation:getTokenQuery,
+            variables:{
+                "username": data.username,
+                "password": data.password,            
+            }
+        }).then((e)=>{
+            dispatch(loginToken(e.data.tokenAuth.token))
+        }).catch((e)=>{
+            dispatch(loginError("username or password wrong"))
+        })
+    }
+}
+
+
+// export const getUserToken = (data) =>{
+//     // console.log(data)
+//     return dispatch =>{
+//         dispatch(loginLoading());
+//         console.log("sdflkjsl")
+//         return client.mutate({
+//             mutation:getTokenQuery,
+//             variables:{
+//                 "username": data.username,
+//                 "password": data.password,
+//             }
+//         }).then((e)=>{
+//             console.log("ersdf")
+//             dispatch(loginToken(e.data.tokenAuth.token))
+//         }).catch((e)=>{
+//             console.log("error")
+//             dispatch(loginError("username or password wrong"))
+//         })
+//     }
+// }
 
 
 
@@ -121,6 +196,26 @@ export const createProductSucess = (product) =>({
     payload:product
 })
 
+export const loginLoading = () =>({
+    type:'LOGIN_LOADING'
+})
+
+export const userCreated = () =>({
+    type:"USER_CREATED"
+})
+
+export const loginToken = (token) =>({
+    type:"LOGIN_TOKEN",
+    token: token
+})
+export const loginError = (error) => ({
+    type:'LOGIN_ERROR',
+    error:error
+})
+
+export const clearBill = () =>({
+    type:'CLEAR_BILL'
+})
 
 export const userLoading = () =>({
     type:'USER_LOADING',

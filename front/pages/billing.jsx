@@ -8,7 +8,7 @@ import React from 'react'
 import client from "../lib/apolloClient";
 import  {FontAwesomeIcon}  from '@fortawesome/react-fontawesome'
 import { faTrashAlt,faEdit } from '@fortawesome/free-regular-svg-icons'
-import { generateBill } from "../redux_function/actions";
+import { generateBill,clearBill } from "../redux_function/actions";
 
 const ref = React.createRef();
 
@@ -110,7 +110,8 @@ const Billingform =() =>{
             query:productSuggetionQuery,
             variables:{
                 "suggestion":d.target.value
-            }
+            },
+            fetchPolicy:'network-only'
         })
         if(result.loading == false)
         // console.log(result.data.productSuggestion)
@@ -127,6 +128,20 @@ const Billingform =() =>{
     const deletefromtemp=(id)=>{
         console.log(id)
         setMlist(mlist.concat([]))
+
+    }
+    const reset =()=>{
+        setMlist([])
+        dispatch(clearBill())
+        setValue([
+            {"patient":""},
+            {"age":""},
+            {"gender":""},
+            {"payment":""},
+            {"gst":""},
+            {"date":""},
+            
+        ])
 
     }
     // console.log(mlist)
@@ -298,6 +313,10 @@ const Billingform =() =>{
                 </tbody>
                 </table>
 
+                {billstore.invoice==null?
+                <>
+                
+
                 <a onClick={()=>
                         BillToServer( getValues("patientId"),getValues("date"),getValues("gst"),getValues("payment"),mlist)
                     }
@@ -308,8 +327,17 @@ const Billingform =() =>{
                         {billstore.invoice==null?"Generate":"Download bill"}
                 </button>
                 </a>
-            
+                {/* <div style={{marginLeft:'10px'}}> */}
+                    {/* <a style={{marginLeft:'30px'}} className="button is-small" onClick={()=>reset()}>Reset</a> */}
+                {/* </div> */}
                 
+                </>
+                :
+                    <>
+                    <a href={`http://localhost:8000/media/${billstore.link}`} target="_blank" className="button is-primary is-small" >Bill</a>
+                    <a style={{marginLeft:'30px'}} className="button is-small" onClick={()=>reset()}>Reset</a>
+                    </>
+                }
             </div>
         </div>
     )

@@ -6,6 +6,7 @@ from graphene import relay
 from django.contrib.auth.models import User
 from graphene.relay.node import from_global_id
 import datetime
+from django.contrib.auth import get_user_model
 from django.core.files import File
 from django.template.loader import get_template 
 from django.template import Context
@@ -111,11 +112,11 @@ class MInput(graphene.InputObjectType):
 
 
 
-def GenerateBill(gross,invoice_number,medicines,discount,cgst,total,bill):
+def GenerateBill(gross,invoice_number,medicines,discount,cgst,total,bill,user):
     print("invoice ...")
     print(invoice_number)
     template = get_template("x.html")
-    context = {"gross":gross,"medicines": medicines,"discount":discount,"cgst":cgst,"sgst":cgst,"total":total,"invoice":invoice_number,"bill":bill}
+    context = {"gross":gross,"medicines": medicines,"discount":discount,"cgst":cgst,"sgst":cgst,"total":total,"invoice":invoice_number,"bill":bill,"user":user}
     html = template.render(context)
     options = {
     'page-size': 'A4',
@@ -181,7 +182,7 @@ class CreateBill(graphene.Mutation):
         bill.net_amount = round(total,2)
         # bill.save() 
 
-        GenerateBill(gross,bill.invoice_number,Medicine.objects.filter(billing_id=bill.id),discount,cgst,total,bill)
+        GenerateBill(gross,bill.invoice_number,Medicine.objects.filter(billing_id=bill.id),discount,cgst,total,bill,info.context.user)
         pdfname = "{}.pdf".format(bill.invoice_number)
         # print(pdfname)
         with open(pdfname,'rb') as pdf:
@@ -229,13 +230,22 @@ class CreateUser(graphene.Mutation):
         email = graphene.String(required=True)
         firstname = graphene.String(required=True)
         lastname = graphene.String(required=True)
+        phone = graphene.String(required=True)
+
+        gst = graphene.String(required=True)
+        tin = graphene.String(required=True)
+        firm_name = graphene.String(required=True)
+        address = graphene.String(required=True)
+        
+
+
 
     user = graphene.Field(UserNode)
-    def mutate(self,info,username,password,email,firstname,lastname):
+    def mutate(self,info,username,password,email,firstname,lastname,gst,tin,firm_name,address,phone):
         user = get_user_model()(username = username,email = email,first_name = firstname,last_name=lastname)
         user.set_password(password)
         user.save()
-        Profile.objects.create(user_id = user.id)
+        Profile.objects.create(user_id = user.id,GST_no = gst,TIN_no=tin,firm_name=firm_name,address=address,contact_number=phone)
         return CreateUser(user=user)
 
 import graphql_jwt
@@ -245,6 +255,7 @@ class Mutation(graphene.ObjectType):
     create_product = CreateProduct.Field()
     generate_bill = CreateBill.Field()
     update_user = UpdateUser.Field()
+    # create_user = CreateUser.Field()
     token_auth = graphql_jwt.ObtainJSONWebToken.Field()
 
 class Query(graphene.AbstractType):

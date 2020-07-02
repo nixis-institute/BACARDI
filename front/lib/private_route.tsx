@@ -16,11 +16,15 @@ export type AuthProps = {
         // console.log(ctx)
         
         const token = ServerCookie(ctx)["token"];
+        console.log(WrappedComponent)
+        // const token = localStorage.getItem("token")
         console.log("below is token")
+        
         // console.log(token)
         const auth = new AuthToken(token);
         const initialProps = { auth };
-        if (auth.isExpired) {
+        // console.log(auth)
+        if (auth.isExpired || auth.token==undefined) {
           ctx.res.writeHead(302, {
             Location: "/login?redirected=true",
           });

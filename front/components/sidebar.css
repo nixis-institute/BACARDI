@@ -48,11 +48,11 @@ height: 100%;
 padding-top:10px;
 border-right: 1px solid rgba(0,0,0,0.08);
 background: white;
-box-shadow:1px 1px 5px rgba(0,0,0,0.2)
+/* box-shadow:1px 1px 5px rgba(0,0,0,0.2) */
 }
 
 .item .label{
-    color:grey;
+    color:rgba(0,0,0,0.2);
     margin-left: 10px;
 }
 
@@ -72,8 +72,17 @@ box-shadow:1px 1px 5px rgba(0,0,0,0.2)
 
 ._side .item:hover{
     background-color: white;
+    color: red;
     border-right: 1px solid #00d1b2;
 }
+
+
+._side ._item_:hover{
+    background-color: white;
+    /* color: red; */
+    border-right: 3px solid red;
+}
+
 
 ._side .active{
     background-color: white;

@@ -1,19 +1,30 @@
 
-
+import {AuthToken} from '../../lib/auth_token'
+// import { Router } from 'next/router'
 // var token = localStorage.getItem("token")
 
-const loginReducer = (state={'token':null},action) =>{
+const loginReducer = (state={'token':null,'loading':false,'error':false},action) =>{
+    // console.log(action)
     switch(action.type){
-        case 'GET_TOKEN':
-            // console.log(localStorage.getItem("token"))
-            return{
-                ...state,token:localStorage.getItem("token")
+        case 'USER_CREATED':
+            return {
+                ...state,loading:false,error:false
             }
-        case 'SET_TOKEN':
-            localStorage.setItem("token",action.token)    
+
+        case 'LOGIN_TOKEN':
+            AuthToken.storeToken(action.token)
             return{
-                    ...state,token:action.token
+                ...state,loading:false,token:action.token
+            }
+        case 'LOGIN_LOADING':
+                console.log("loading....")
+            return{
+                    ...state,token:action.token,loading:true
                 }
+        case 'LOGIN_ERROR':
+            return{
+                ...state,loading:false,error:true
+            }
         default:
             return state
     }

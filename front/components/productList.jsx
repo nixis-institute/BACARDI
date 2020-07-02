@@ -30,10 +30,13 @@ const TableView=({products})=>{
   // console.log(products.items)
   if(products.loading)
   return <div>Loading....</div>
-  
+  if(products.items.length==0)
+  return (<div style={{marginTop:"200px",textAlign:"center",fontSize:"20px",fontWeight:"bold"}}>
+          <div>No Product Avaiable please add </div>
+        </div>)
     return (
       <div style={{maxWidth:"800px", margin:"auto"}}>
-     <table className="table is-fullwidth is-hoverable is-striped">
+     <table className="table is-fullwidth is-hoverable ">
        <thead>
        <tr>
          <th>Name</th>
@@ -57,7 +60,7 @@ const TableView=({products})=>{
 
             <tr key={prd.node.id} className="data-item" style={{cursor:'pointer'}}>
                   <td>
-                    <div className="heading">
+                    <div className="_heading">
                       {prd.node.name}
                     </div>
                     

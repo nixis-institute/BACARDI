@@ -237,6 +237,9 @@ const Profile =(props) =>{
                 >
                 {isEdit?"Update":"Edit"}
                 </button>
+                {/* <button>
+                    Logout
+                </button> */}
 
 
                     {/* {isEdit?

@@ -4,9 +4,14 @@ import { createHttpLink,HttpLink } from 'apollo-link-http';
 import { setContext } from 'apollo-link-context';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 // import ApolloClient, {createNetworkInterface} from 'apollo-client'
-
+import {server} from './settings'
 // const server = "http://shoppingjunction.pythonanywhere.com/graphql/"
-const server ="http://localhost:8000/graphql/";
+
+const _server = `${server}/graphql/`
+
+// const _server ="http://localhost:8000/graphql/";
+
+
 // import ServerCookie from "next-cookies";
 import Cookie from 'js-cookie'
 
@@ -48,7 +53,7 @@ import Cookie from 'js-cookie'
 
 const httplink = createHttpLink({
     uri:server,
-    // credentials: 'same-origin'
+    credentials: 'same-origin'
     // credentials: 'include'
   });
 // const l = new HttpLink({
@@ -63,6 +68,8 @@ const httplink = createHttpLink({
   // const token = "token";
   const authLink = setContext((_, { headers }) => {
     const token = Cookie.get("token") 
+    // const token = localStorage.getItem("token")
+
     // console.log("this.is token fro cookie")
     // console.log(token)
     if(token=="undefined"){

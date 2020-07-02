@@ -2,7 +2,8 @@ import Layout from '../components/layout'
 import {useState} from 'react'
 import { useQuery,useLazyQuery } from '@apollo/react-hooks'
 import {reportByDateRangeQuery} from '../lib/graphql'
-
+import {privateRoute} from '../lib/private_route'
+import { server } from '../lib/settings'
 
 const ListofReport = ({min,max}) =>{
     const [getReprot, {loading,error,data}] = useLazyQuery(reportByDateRangeQuery,{variables:{"min":min,"max":max}})
@@ -87,7 +88,7 @@ const Report = () =>{
                                 return (<tr key={item.id}>
                                     <td>{i+1}</td>
                                     <td>
-                                        <a href={`http://localhost:8000/media/${item.node.invoice}`} target="_blank">
+                                        <a href={`${server}/media/${item.node.invoice}`} target="_blank">
                                             {item.node.invoiceNumber}
                                         </a>
                                         </td>
@@ -118,4 +119,5 @@ const Report = () =>{
     )
 }
 
-export default Report;
+
+export default privateRoute(Report);

@@ -69,6 +69,24 @@ mutation($username:String!,$password:String!){
 `
 
 
+export const createUserQuery = gql`
+mutation x($username:String!$password:String!,$firstName:String!,$lastName:String!,$email:String!,$phone:String!,$gst:String!,$tin:String!,$firm:String!,$address:String!){
+  createUser(
+    username:$username,address:$address,password:$password,firstname:$firstName,lastname:$lastName,email:$email,phone:$phone,gst:$gst,tin:$tin,firmName:$firm
+  ){
+    user{
+      id
+      username
+      profile{
+        id
+        GSTNo
+        firmName
+      }
+    }
+  }
+}
+`
+
 export const historyBySlugQuery = gql`
 query x($slug:String!){
   history(slug:$slug){

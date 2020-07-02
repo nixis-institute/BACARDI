@@ -8,7 +8,6 @@ export default combineReducers({
     bills:billReducer,
     user:userReducer,
     login:loginReducer,
-    // user:userReducer,
 })
 
 // export default products;

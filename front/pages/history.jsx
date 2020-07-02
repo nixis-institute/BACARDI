@@ -2,7 +2,7 @@ import Layout from '../components/layout'
 import {useState} from 'react'
 import { useQuery,useLazyQuery } from '@apollo/react-hooks'
 import {historyBySlugQuery} from '../lib/graphql'
-
+import {privateRoute} from '../lib/private_route'
 const Result = ({loading,data})=>{
     return(
         <div className="data">
@@ -93,4 +93,4 @@ const History =() =>{
     )
 }
 
-export default History;
+export default privateRoute(History);

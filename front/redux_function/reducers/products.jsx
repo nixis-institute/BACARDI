@@ -25,7 +25,7 @@ const productsReducer = (state={'loading':true,'create_loading':false,"created":
             // }
             // let item = state.items.concat(...[action.payload.products.allProducts.edges])
             console.log(action.payload.products.allProducts.edges)
-            return  {...state,loading:false,items:state.items.concat(...[action.payload.products.allProducts.edges])}
+            return  {...state,loading:false,items:action.payload.products.allProducts.edges}
             
 
 
@@ -35,7 +35,8 @@ const productsReducer = (state={'loading':true,'create_loading':false,"created":
             return {...state,create_loading:true,error:null}
 
         case CREATE_PRODUCTS_SUCCESS:
-            console.log(action.payload.createProduct.product)
+
+            console.log(action.payload.createProduct)
             if(action.payload.createProduct.isNew==true){
                 var item = state.items.concat(...[{"node":action.payload.createProduct.product}])
             }

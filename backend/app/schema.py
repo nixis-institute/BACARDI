@@ -134,19 +134,30 @@ def GenerateBill(gross,invoice_number,medicines,discount,cgst,total,bill,user):
 
 class CreateBill(graphene.Mutation):
     class Arguments:
-        user_id = graphene.String(required = True)
+        name = graphene.String(required = True)
+        age = graphene.String(required = True)
+        gender = graphene.String(required = True)
         payment_mode = graphene.String(required=True)
         billing_date = graphene.String(required=True)
         gst = graphene.Float(required=True)
         medicines = graphene.List(MInput)
     bill = graphene.Field(BillingNode)
-    def mutate(self,info,payment_mode,billing_date,gst,medicines,user_id):
+    def mutate(self,info,payment_mode,billing_date,gst,medicines,name,age,gender):
         # print(medicines[0])
-        user_id = from_global_id(user_id)[1]
+        # user_id = from_global_id(user_id)[1]
+        name = name.replace(" ({})".format(age),"")
+
+        patient = Patient.objects.filter(name__iexact=name,age=12,sex=gender)
+        if patient:
+            user_id = patient[0]
+        else:
+            user_id = Patient.objects.create(name=name,age=age,sex=gender)
+
+
         bill = Billing.objects.create( 
-            user_id=1,invoice_number="INV#{}".format(user_id),patient_id=user_id,payment_mode=payment_mode,billing_date=datetime.datetime.strptime(billing_date,"%Y-%m-%d")
+            user_id=1,invoice_number="INV#{}".format(user_id.id),patient_id=user_id.id,payment_mode=payment_mode,billing_date=datetime.datetime.strptime(billing_date,"%Y-%m-%d")
             )
-        bill.invoice_number = "INV#{}-{}".format(bill.id,user_id)
+        bill.invoice_number = "INV#{}-{}".format(bill.id,user_id.id)
 
         gross = total = discount = cgst =  0.0
 

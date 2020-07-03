@@ -117,14 +117,16 @@ export const getUserToken = (data) =>{
 
 
 
-export const generateBill=(id,date,gst,paymentMode,mlist)=>{
+export const generateBill=(name,age,gender,date,gst,paymentMode,mlist)=>{
     return dispatch=>{
         dispatch(billGenerateLoading());
         return client.mutate({
             mutation:generateBillQuery,
             variables:{
                 "medicines": mlist,
-                "userId": id,
+                "name": name,
+                "age":age,
+                "gender":gender,
                 "date": date,
                 "gst": gst,
                 "payment": paymentMode

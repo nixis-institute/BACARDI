@@ -120,7 +120,7 @@ function CreateProduct(){
                     onChange={selectMedicineOption}
                      name="medicine" type="text"placeholder="Medicine Name"/>
 
-                        <div style={{'padding':0,'max-width':'350px', position:'absolute',zIndex:'1',background:'white',display:list.length?"block":"none"}} role="combobox" className="_list">
+                        <div style={{'padding':0,'maxWidth':'350px', position:'absolute',zIndex:'1',background:'white',display:list.length?"block":"none"}} role="combobox" className="_list">
                             { list.map((e)=>{
                             return <div className="_list-item" key={e.id} onClick={()=>fillMedicineInfo(e.id,e.name,e.qty,e.price,e.expiryDate,e)}>
                                 <div key={e.id} >

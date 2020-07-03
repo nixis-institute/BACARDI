@@ -141,8 +141,8 @@ query x($min:String!,$max:String!){
 
 
 export const generateBillQuery = gql`
-mutation x($medicines:[MInput!],$userId:String!,$date:String!,$gst:Float!,$payment:String!){
-  generateBill(userId:$userId, billingDate:$date,gst:$gst,medicines:$medicines,paymentMode:$payment)
+mutation x($medicines:[MInput!],$name:String!,$age:String!,$gender:String!, $date:String!,$gst:Float!,$payment:String!){
+  generateBill(billingDate:$date,gst:$gst,medicines:$medicines,paymentMode:$payment,name:$name,age:$age,gender:$gender)
   {
     bill{
       invoice

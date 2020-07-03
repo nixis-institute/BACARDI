@@ -64,8 +64,8 @@ const Billingform =() =>{
         })
     }
 
-    const BillToServer=(id,date,gst,payment,mlist)=>{
-        dispatch(generateBill(id,date,gst,payment,mlist))
+    const BillToServer=(name,age,gender,date,gst,payment,mlist)=>{
+        dispatch(generateBill(name,age,gender,date,gst,payment,mlist))
     }
 
     const fillMedicineInfo = (id,medicine,qty,price,expiry,discount)=>{
@@ -318,7 +318,7 @@ const Billingform =() =>{
                 
 
                 <a onClick={()=>
-                        BillToServer( getValues("patientId"),getValues("date"),getValues("gst"),getValues("payment"),mlist)
+                        BillToServer( getValues("patient"),getValues("age"),getValues("gender"), getValues("date"),getValues("gst"),getValues("payment"),mlist)
                     }
                 target={billstore.invoice==null?'_self':'_blank'}>
 

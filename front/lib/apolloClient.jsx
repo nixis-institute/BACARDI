@@ -52,7 +52,7 @@ import Cookie from 'js-cookie'
 
 
 const httplink = createHttpLink({
-    uri:server,
+    uri:_server,
     credentials: 'same-origin'
     // credentials: 'include'
   });

@@ -118,7 +118,7 @@ function CreateProduct(){
                     // onChange={()=>setMedicine(medicine)}  value={medicine} 
                     autoComplete="off"
                     onChange={selectMedicineOption}
-                     name="medicine" type="text"placeholder="Medicine Name"/>
+                     name="medicine" type="text"placeholder="Medicine Name" required/>
 
                         <div style={{'padding':0,'maxWidth':'350px', position:'absolute',zIndex:'1',background:'white',display:list.length?"block":"none"}} role="combobox" className="_list">
                             { list.map((e)=>{
@@ -139,13 +139,13 @@ function CreateProduct(){
                     <label className="label">Quantity</label>
                     <input className="input is-small" ref={register}
                     //  onChange={()=>setQty(qty)} value={qty} 
-                     type="text" name="qty"  placeholder="Quantity"/>
+                     type="text" name="qty"  placeholder="Quantity" required/>
                 </div>
                 <div>
                     <label className="label">MRP</label>
                     <input className="input is-small" ref={register}
                     // onChange={()=>setMrp(mrp)} value={mrp} 
-                    type="text" name="mrp" placeholder="Price"/>
+                    type="text" name="mrp" placeholder="Price" required/>
                 </div>
             </div>
 
@@ -155,13 +155,13 @@ function CreateProduct(){
                     <label className="label">Expiry Date</label>
                     <input className="input is-small"  ref={register}
                     // onChange={()=>setExt(exp)}  value={exp} 
-                    type="date" name="exp_date"  placeholder="Expiry Date"/>
+                    type="date" name="exp_date"  placeholder="Expiry Date" required/>
                 </div>
                 <div>
                     <label className="label">MFG.</label>
                     <input className="input is-small"  ref={register}
                     // onChange={()=>setExt(exp)}  value={exp} 
-                    type="text" name="mfg"  placeholder="Manfacturing"/>
+                    type="text" name="mfg"  placeholder="Manfacturing" required/>
                 </div>
             </div> 
 
@@ -171,13 +171,13 @@ function CreateProduct(){
                     <label className="label">Purchase From</label>
                     <input className="input is-small" ref={register}
                     //  onChange={()=>setPurchase(purchase)} value={purchase} 
-                    type="text" name="purchase" placeholder="Purchase from"/>
+                    type="text" name="purchase" placeholder="Purchase from" required/>
                 </div>
                 <div>
                     <label className="label">Type of packing</label>
                     <input className="input is-small" ref={register}
                     //  onChange={()=>setTypeofpack(typeofpack)} value={typeofpack} 
-                    type="text" name="typeofpack" placeholder="Type of Packing"/>
+                    type="text" name="typeofpack" placeholder="Type of Packing" required/>
                 </div>
             </div> 
             <div className="i_row" style={{display:'flex'}}>
@@ -185,13 +185,13 @@ function CreateProduct(){
                     <label className="label">GST</label>
                     <input className="input is-small" ref={register}
                     //  onChange={()=>setQty(qty)} value={qty} 
-                     type="text" name="gst"  placeholder="GST"/>
+                     type="text" name="gst"  placeholder="GST" required/>
                 </div>
                 <div>
                     <label className="label">Discount</label>
                     <input className="input is-small" ref={register}
                     // onChange={()=>setMrp(mrp)} value={mrp} 
-                    type="text" name="discount" placeholder="Discount"/>
+                    type="text" name="discount" placeholder="Discount" required/>
                 </div>
             </div>
 
@@ -201,13 +201,13 @@ function CreateProduct(){
                     <label className="label">HSN</label>
                     <input className="input is-small" ref={register}
                     //  onChange={()=>setQty(qty)} value={qty} 
-                     type="text" name="hsn"  placeholder="HSN"/>
+                     type="text" name="hsn"  placeholder="HSN" required/>
                 </div>
                 <div>
                     <label className="label">Batch</label>
                     <input className="input is-small" ref={register}
                     // onChange={()=>setMrp(mrp)} value={mrp} 
-                    type="text" name="batch" placeholder="batch"/>
+                    type="text" name="batch" placeholder="batch" required/>
                 </div>
             </div>
 

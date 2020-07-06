@@ -88,6 +88,9 @@ class Layout extends React.Component{
                             <div className="main-container">
                                 {children}
                             </div>
+                            <div className="_foot">
+
+                            </div>
                         </div>
                         
                     </div>

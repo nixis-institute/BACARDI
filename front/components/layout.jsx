@@ -9,9 +9,13 @@ import { withRouter, Router } from 'next/router'
 import Cookie from "js-cookie";
 import Navbar from './navbar';
 import LoadingOverlay from 'react-loading-overlay'
-import  {FontAwesomeIcon,}  from '@fortawesome/react-fontawesome'
-import { faTrashAlt,faEdit, faHospital, faBuilding } from '@fortawesome/free-regular-svg-icons'
-import {faHome, faList, faReceipt, faHistory, faUser, faSignOutAlt} from '@fortawesome/free-solid-svg-icons'
+
+// import SideBar from './sidebar'
+import dynamic from 'next/dynamic'
+
+
+const SideBar = dynamic(()=> import("./sidebar"),{ssr:false})
+
 // import { Provider } from 'react-redux'
 // import rootReducer from '../redux_function/reducers'
 // import {createStore} from 'redux'
@@ -36,14 +40,7 @@ class Layout extends React.Component{
     
 
     render(){
-        const Logout = () =>{
-            console.log("logout")
-            Cookie.remove("token")
-            // const r = Router()
-            // r.push("/login") 
-            // Router.push("/login")
-            this.props.router.push("/login")
-        }
+        
         // const r = new Router()
         // console.log(r)
         
@@ -68,90 +65,18 @@ class Layout extends React.Component{
 
                 
                 <main className="main">
-                    <div style={{display:'flex'}}>
-                        <div className="sidebar" style={{display:sidebar===true?'block':'none'}}>
-                            <div className="_side">
-                                {/* {route} */}
-                                <div className="navbar-brand">
-                                    <Link href="/">
-                                        <a className="navbar-item">
-                                            <h1 className="is-4 custom-brand">BACARDI</h1>
-                                        </a>
-                                    </Link>
+                    
+                    
+                    <div class="es_" >
+                        
+                        {
+                            sidebar===true?
+                            <SideBar route={route} sidebar={sidebar}/>:
+                            <div></div>
+                        }
+                        
 
-                                </div>
-                                <div className={route=="/" ||route.startsWith("/detail/")  ?"item active":"item"} >
-                                <Link href="/" >
-                                    <div>
-                                            <div className="inner_block">
-                                                <div className="icn-block">
-                                                    <FontAwesomeIcon icon={faHome} className="icon_" />
-                                                </div>
-                                                <h1 className="label">Product</h1>
-                                            </div>
-                                    </div>
-                                </Link>
-                                </div>
 
-                                <div className={route.startsWith("/billing")?"item active":"item"}>
-                                    <Link href="/billing">
-                                        <div className="inner_block">
-                                            <div className="icn-block">
-                                                <FontAwesomeIcon icon={faList} className="icon_"/>
-                                            </div>
-                                            <h1 className="label">Billing</h1>
-                                        </div>     
-                                    </Link>                           
-                                </div>
-
-                                <div className={route.startsWith("/report")?"item active":"item"}>
-                                    <Link href="/reports">
-                                        <div className="inner_block">
-                                            <div className="icn-block">
-                                                <FontAwesomeIcon icon={faReceipt} className="icon_"/>
-                                            </div>
-                                            <h1 className="label">Report</h1>
-                                        </div>
-                                    </Link>
-                                    
-                                </div>
-                                <div className={route.startsWith("/history")?"item active":"item"}>
-                                    <Link href="/history">
-                                        <div className="inner_block">
-                                            <div>
-                                                <FontAwesomeIcon icon={faHistory} className="icon_"/>
-                                            </div>
-                                            
-                                            <h1 className="label">History</h1>
-                                        </div>
-                                    </Link>
-    
-                                    
-                                </div>
-                                <div className={route.startsWith("/profile")?"item active":"item"}>
-                                    <Link href="/profile">
-                                        <div className="inner_block">
-                                            <FontAwesomeIcon icon={faUser} className="icon_"/>
-                                            <h1 className="label">Profile</h1>
-                                        </div>
-                                    </Link>
-                                    
-                                </div>
-                                <div style={{position:'fixed',bottom:10,width:'10%'}} className="_item_" onClick={Logout}>
-                                    <div  className="inner_block_" style={{
-                                        fontSize: "15px",
-                                        padding: "0.5rem 0.75rem",
-                                        lineHeight: "1.5",
-                                        cursor: "pointer",
-                                        display: "flex",
-}}>
-                                        <FontAwesomeIcon icon={faSignOutAlt} className="icon_" color="rgba(255,0,0,0.8)" />
-                                        <h1 className="label" style={{marginLeft:'10px',color:"rgba(255,0,0,0.8)"}}>Logout</h1>
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                         <div className="container" style={{padding:'0'}}>
                             <header>
                                 {navbar===true?

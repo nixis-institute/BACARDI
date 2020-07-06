@@ -68,7 +68,7 @@ const History =() =>{
     return (
         <Layout title="History">
             <div style={{'marginTop':'20px'}}>
-                <div style={{maxWidth:'800px',margin:'auto',}}>
+                <div style={{maxWidth:'700px',margin:'auto',}}>
                     <div>
                     <div className="columns">
                         <div className="column">

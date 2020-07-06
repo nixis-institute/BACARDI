@@ -19,25 +19,43 @@ import  {currentUser} from '../redux_function/actions'
 
       // cons
 
+      const tgl = () =>{
+        // console.log("clicked")
+        const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
+        // if ($navbarBurgers.length > 0) {
+
+          $navbarBurgers.forEach( el => {
+
+            // el.addEventListener('click', () => {
+              const target = el.dataset.target;
+              const $target = document.getElementById(target);
+              el.classList.toggle('is-active');
+              $target.classList.toggle('is-active');
+            // })
+          })
+        // }
+        // console.log("clicked")
+      }
+
 
 
       // console.log(data.currentUser.username)
       return(
-        <div style={{minHeight:'3.25rem'}}>            
+        <div className="main_content">            
         <div className="navbar is-fixed-top" role="navigation" aria-label="main navigation">
-        <div className="navbar-brand" style={{width:'10%'}}>
+        <div className="navbar-brand">
             <Link href="/">
-            <a className="navbar-item" style={{visibility:'hidden'}} >
+            <a className="navbar-item" >
                 <h1 className="is-4 custom-brand">Bacardi</h1>
                 {/* <img src="https://bulma.io/images/bulma-logo.png" width="112" height="28"/> */}
             </a>
             </Link>
 
-          <a role="button" className="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+          <div role="button" onClick={()=>tgl()} className="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample" >
             <span aria-hidden="true"></span>
             <span aria-hidden="true"></span>
             <span aria-hidden="true"></span>
-          </a>
+          </div>
         </div> 
 
         <div id="navbarBasicExample" className="navbar-menu">

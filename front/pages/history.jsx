@@ -3,6 +3,7 @@ import {useState} from 'react'
 import { useQuery,useLazyQuery } from '@apollo/react-hooks'
 import {historyBySlugQuery} from '../lib/graphql'
 import {privateRoute} from '../lib/private_route'
+import { server } from '../lib/settings'
 const Result = ({loading,data})=>{
     return(
         <div className="data">
@@ -37,7 +38,7 @@ const Result = ({loading,data})=>{
                         return (<tr key={item.id}>
                             <td>{i+1}</td>
                             <td>
-                                <a href={`http://localhost:8000/media/${item.node.invoice}`} target="_blank">
+                                <a href={`${server}/media/${item.node.invoice}`} target="_blank">
                                     {item.node.invoiceNumber}
                                 </a>
                                 </td>

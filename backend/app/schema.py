@@ -12,6 +12,7 @@ from django.template.loader import get_template
 from django.template import Context
 import pdfkit
 import os
+from fpdf import FPDF
 
 class UserNode(DjangoObjectType):
     class Meta:
@@ -111,6 +112,127 @@ class MInput(graphene.InputObjectType):
     expiry = graphene.String()
 
 
+def generate_receipt(bill,medicines,user): 
+    pdf = FPDF(orientation='P', unit='pt', format='A4') 
+    pdf.add_page() 
+    pdf.set_font("Arial", "B", 17) 
+    pdf.cell(0, 30, "{}".format(user.profile.firm_name), 0, 0, "L")  
+    pdf.cell(0,30,"Invoice",0,1,"R") 
+    pdf.set_font("Arial", "", 12) 
+    pdf.cell(0,20,"{}".format(user.profile.address),0,0,"L") 
+    pdf.cell(0,20,"Invoice Number : {}".format(bill.invoice_number),0,1,"R") 
+    pdf.cell(0,20,"{}".format(user.profile.contact_number),0,0,"L") 
+    pdf.cell(0,20,"Date: {}".format(bill.billing_date.strftime("%b %d, %Y")),0,1,"R") 
+    pdf.cell(0,23,"{}".format(user.profile.GST_no),0,1,"L") 
+    pdf.cell(0,23,"Bill to",0,1,"L") 
+    pdf.set_font("Arial","B",13) 
+    pdf.cell(0,20,"{}".format(bill.patient.name),0,1,"L") 
+    pdf.set_font("Arial","",12) 
+    pdf.cell(0,20,"{}".format(bill.patient.sex),0,1,"L") 
+    epw = pdf.w - 2*pdf.l_margin 
+    # col_width = epw/4 
+    th = pdf.font_size 
+    pdf.ln(th*4) 
+    
+    # for row in data: 
+    #     for datum in row: 
+    #         pdf.cell(col_width, 2*th, str(datum), border=1) 
+    #     pdf.ln(2*th) 
+    # pdf.ln(2*th) 
+    pdf.set_font("Arial", "B", 8)
+    pdf.cell(20, 2*th, "Sn.",1,0,"C")
+    pdf.cell(100, 2*th, "Name",1,0,"C")
+    pdf.cell(40, 2*th, "Pack",1,0,"C")
+    pdf.cell(45, 2*th, "HSN",1,0,"C")
+    pdf.cell(30, 2*th, "Exp",1,0,"C")
+    pdf.cell(40, 2*th, "Batch",1,0,"C")
+    pdf.cell(40, 2*th, "MFG.",1,0,"C")
+    
+    # 315
+
+    pdf.cell(20, 2*th, "Qty",1,0,"C")
+    pdf.cell(40, 2*th, "MRP",1,0,"C")
+    pdf.cell(40, 2*th, "Dis%",1,0,"C")
+    pdf.cell(40, 2*th, "SGST",1,0,"C")
+    pdf.cell(40, 2*th, "CGST",1,0,"C")
+    pdf.cell(40, 2*th, "Total",1,0,"C")
+    pdf.ln(2*th)
+
+    for index,i in enumerate(medicines,start=1):
+
+
+        
+        pdf.set_font("Arial", "", 8)
+        pdf.cell(20, 2*th, str(index),1,0,"C")
+        pdf.set_font("Arial", "B", 8)
+        pdf.cell(100, 2*th, str(i.medicine_name.upper()),1,0,"C")
+        pdf.set_font("Arial", "", 8)
+        if(i.medicine.type_of_packing):
+            pdf.cell(40, 2*th, str(i.medicine.type_of_packing),1,0,"C")
+        else:
+            pdf.cell(40, 2*th, str(" - "),1,0,"C")
+        
+        if(i.medicine.hsn):
+            pdf.cell(45, 2*th, str(i.medicine.hsn),1,0,"C")
+        else:
+            pdf.cell(45, 2*th, str(" - "),1,0,"C")
+        if(i.expiry_date):
+            pdf.cell(30, 2*th, str(i.expiry_date.strftime("%m/%y")),1,0,"C")
+        else:
+            pdf.cell(40, 2*th, str(" - "),1,0,"C")
+
+        if(i.medicine.batch):
+            pdf.cell(40, 2*th, str(i.medicine.batch),1,0,"C")
+        else:
+            pdf.cell(40, 2*th, str(" - "),1,0,"C")
+
+        if(i.medicine.mfg):
+            pdf.cell(40, 2*th, str(i.medicine.mfg),1,0,"C")
+        else:
+            pdf.cell(40, 2*th, str(" - "),1,0,"C")
+
+        pdf.cell(20, 2*th, str(i.quantity),1,0,"C")
+        pdf.cell(40, 2*th, str(i.price),1,0,"C")
+        pdf.cell(40, 2*th, str(i.discount),1,0,"C")
+        
+        pdf.cell(40, 2*th, str(i.CGST),1,0,"C")
+        pdf.cell(40, 2*th, str(i.SGST),1,0,"C")
+        pdf.cell(40, 2*th, str(i.total),1,0,"C")
+        pdf.ln(2*th)
+    pdf.set_font("Arial","",12)
+    pdf.cell(315,2*th,str("Payment Mode : {}".format(bill.payment_mode)),0,0,"C")
+    pdf.set_font("Arial","",10)
+    pdf.cell(100,2*th,str("Gross Amount"),1,0,"C")
+    pdf.set_font("Arial","B",10)
+    pdf.cell(120,2*th,str(bill.gross_amount ),1,0,"C")
+    pdf.ln(2*th)
+    
+    pdf.set_font("Arial","",10)
+    pdf.cell(315,2*th,str(""),0,0,"L")
+    pdf.cell(100,2*th,str("CGST"),1,0,"C")
+    pdf.set_font("Arial","B",10)
+    pdf.cell(120,2*th,str(bill.cgst ),1,0,"C")
+    pdf.ln(2*th)
+
+    pdf.set_font("Arial","",10)
+    pdf.cell(315,2*th,str(""),0,0,"L")
+    pdf.cell(100,2*th,str("SGST"),1,0,"C")
+    pdf.set_font("Arial","B",10)
+    pdf.cell(120,2*th,str(bill.sgst ),1,0,"C")
+    pdf.ln(2*th)
+
+    pdf.set_font("Arial","",10)
+    pdf.cell(315,2*th,str(""),0,0,"L")
+    pdf.cell(100,2*th,str("Net Amount"),1,0,"C")
+    pdf.set_font("Arial","B",10)
+    pdf.cell(120,2*th,str(bill.net_amount ),1,0,"C")
+    pdf.ln(2*th)
+
+
+    # pdf.cell(220,2*th,str("Gross Amount"))
+    pdf.output("{}.pdf".format(bill.invoice_number))
+
+
 
 def GenerateBill(gross,invoice_number,medicines,discount,cgst,total,bill,user):
     print("invoice ...")
@@ -126,6 +248,10 @@ def GenerateBill(gross,invoice_number,medicines,discount,cgst,total,bill,user):
     'margin-left': '50px',
     # 'orientation':'landscape'
     }
+
+
+
+
     pdfkit.from_string(html, '{}.pdf'.format(invoice_number),options=options)
     
 
@@ -193,7 +319,8 @@ class CreateBill(graphene.Mutation):
         bill.net_amount = round(total,2)
         # bill.save() 
 
-        GenerateBill(gross,bill.invoice_number,Medicine.objects.filter(billing_id=bill.id),discount,cgst,total,bill,info.context.user)
+        # GenerateBill(gross,bill.invoice_number,Medicine.objects.filter(billing_id=bill.id),discount,cgst,total,bill,info.context.user)
+        generate_receipt(bill,Medicine.objects.filter(billing_id=bill.id),info.context.user)
         pdfname = "{}.pdf".format(bill.invoice_number)
         # print(pdfname)
         with open(pdfname,'rb') as pdf:

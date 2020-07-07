@@ -6,7 +6,7 @@ import client from '../lib/apolloClient';
 // import Nav from './navbar';
 import { withRouter, Router } from 'next/router'
 // import Router:s from 'next/router'
-import Cookie from "js-cookie";
+
 import Navbar from './navbar';
 import LoadingOverlay from 'react-loading-overlay'
 

@@ -2,7 +2,7 @@ import  {FontAwesomeIcon,}  from '@fortawesome/react-fontawesome'
 import { faTrashAlt,faEdit, faHospital, faBuilding } from '@fortawesome/free-regular-svg-icons'
 import {faHome, faList, faReceipt, faHistory, faUser, faSignOutAlt} from '@fortawesome/free-solid-svg-icons'
 import Link from 'next/link'
-
+import Cookie from "js-cookie";
 const SideBar = ({sidebar,route,}) =>{
     const Logout = () =>{
         console.log("logout")
@@ -10,7 +10,7 @@ const SideBar = ({sidebar,route,}) =>{
         // const r = Router()
         // r.push("/login") 
         // Router.push("/login")
-        this.props.router.push("/login")
+        router.push("/login")
     }
     
     return(

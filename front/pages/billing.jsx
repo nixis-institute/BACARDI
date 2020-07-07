@@ -127,7 +127,11 @@ const Billingform =() =>{
     }
     const deletefromtemp=(id)=>{
         console.log(id)
-        setMlist(mlist.concat([]))
+        console.log(mlist)
+        
+        // mlist.slice(0, id-1).concat(mlist.slice(id, mlist.length))
+        // console.log(x)
+        setMlist(mlist.slice(0, id).concat(mlist.slice(id+1, mlist.length)))
 
     }
     const reset =()=>{

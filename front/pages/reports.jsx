@@ -33,7 +33,7 @@ const Report = () =>{
         <Layout title="Reports">
             <style jsx>{`
              td,th{
-                 font-size:13px;
+                 font-size:15px;
              }
              .data{
                  margin-top:50px;
@@ -43,7 +43,7 @@ const Report = () =>{
             </style>
             <div style={{marginTop:'20px'}}>
                 <div style={{maxWidth:'800px',margin:'auto',}}>
-                    <div>
+                    <div style={{padding:"10px"}}>
                         <div className="columns">
                             <div className="column">
                                 <label className="label">From</label>
@@ -76,10 +76,10 @@ const Report = () =>{
                                 <th>Invoice Number</th>
                                 <th>Date</th>
                                 <th>Name</th>
-                                <th>Gross</th>
+                                {/* <th>Gross</th>
                                 <th>Discount</th>
                                 <th>CGST</th>
-                                <th>SGST</th>
+                                <th>SGST</th> */}
                                 <th>Net Amount</th>
                             </tr>
                         </thead>
@@ -94,10 +94,10 @@ const Report = () =>{
                                         </td>
                                     <td>{item.node.billingDate}</td>
                                     <td>{item.node.patient.name}</td>
-                                    <td>{item.node.grossAmount}</td>
+                                    {/* <td>{item.node.grossAmount}</td>
                                     <td>{item.node.discount}</td>
                                     <td>{item.node.cgst}</td>
-                                    <td>{item.node.sgst}</td>
+                                    <td>{item.node.sgst}</td> */}
                                     <td>{item.node.netAmount}</td>
                                 </tr>)
                             })}

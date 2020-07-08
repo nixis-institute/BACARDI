@@ -49,12 +49,12 @@
     float: right;
 }
 .left-1{
-    width: 50%;
+    width: 40%;
     align-self: center;
     font-size: 15px;
 }
 .right-1{
-    width: 50%;
+    width: 60%;
 }
 .out{
     overflow: auto;
@@ -67,7 +67,7 @@
 }
 
 td,th{
-    font-size:13px;
+    font-size:15px;
 }
 .data{
     margin-top:50px;

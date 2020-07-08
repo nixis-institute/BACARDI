@@ -9,7 +9,7 @@ const Result = ({loading,data})=>{
         <div className="data">
             <style jsx>{`
              td,th{
-                 font-size:13px;
+                 font-size:15px;
              }
              .data{
                  margin-top:50px;
@@ -26,10 +26,6 @@ const Result = ({loading,data})=>{
                         <th>Invoice Number</th>
                         <th>Date</th>
                         <th>Name</th>
-                        <th>Gross</th>
-                        <th>Discount</th>
-                        <th>CGST</th>
-                        <th>SGST</th>
                         <th>Net Amount</th>
                     </tr>
                 </thead>
@@ -44,10 +40,6 @@ const Result = ({loading,data})=>{
                                 </td>
                             <td>{item.node.billingDate}</td>
                             <td>{item.node.patient.name}</td>
-                            <td>{item.node.grossAmount}</td>
-                            <td>{item.node.discount}</td>
-                            <td>{item.node.cgst}</td>
-                            <td>{item.node.sgst}</td>
                             <td>{item.node.netAmount}</td>
                         </tr>)
                     })}
@@ -68,27 +60,33 @@ const History =() =>{
     const [getHistory, {loading,error,data}] = useLazyQuery(historyBySlugQuery)    
     return (
         <Layout title="History">
+            <div style={{padding:"10px"}}>
+                {/* <div className="columns">
+                    <input type="text" className="input is-small" placeholder="Search Invoice/Name"/>
+                </div> */}
             <div style={{'marginTop':'20px'}}>
                 <div style={{maxWidth:'700px',margin:'auto',}}>
+                    <form>
                     <div>
-                    <div className="columns">
-                        <div className="column">
-                            <label className="label">Invoice/Name</label>
-                            <input type="text" className="input is-small" placeholder="Search Invoice,name"
-                            onChange={e=>setSlug(e.target.value)}
-                            />
+                        <div className="columns">
+                            <div className="column">
+                                <label className="label">Invoice/Name</label>
+                                <input type="text" className="input is-small" placeholder="Search Invoice,name"
+                                onChange={e=>setSlug(e.target.value)}
+                                />
+                            </div>
+                            <div className="column is-3">
+                                <label className="label" style={{visibility:'hidden'}}>Invoice/Name</label>
+                                <input type="button" className="is-small button is-primary" value="Search"
+                                onClick={()=>getHistory({variables:{"slug":slug}})}
+                                />
+                            </div>
                         </div>
-                        <div className="column is-3">
-                            <label className="label" style={{visibility:'hidden'}}>Invoice/Name</label>
-                            <input type="button" className="is-small button is-primary" value="Search"
-                            onClick={()=>getHistory({variables:{"slug":slug}})}
-                            />
-                        </div>
-                        </div>
-                    </div>    
+                    </div>
+                    </form>
                     <Result loading={loading} data={data}/>
                 </div>
-
+            </div>
             </div>
         </Layout>
     )

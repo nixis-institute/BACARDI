@@ -100,7 +100,7 @@ const Profile =(props) =>{
             <div>
                 <h1 className="title">Welcome {user.firstName} {user.lastName}</h1>
             </div>
-            <div style={{maxWidth:'70%',marginTop:'40px'}}>
+            <div style={{marginTop:'40px'}}>
                 {/* <div>info</div> */}
                 <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="out">

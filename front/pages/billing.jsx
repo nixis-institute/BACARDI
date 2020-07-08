@@ -9,40 +9,41 @@ import client from "../lib/apolloClient";
 import  {FontAwesomeIcon}  from '@fortawesome/react-fontawesome'
 import { faTrashAlt,faEdit } from '@fortawesome/free-regular-svg-icons'
 import { generateBill,clearBill } from "../redux_function/actions";
+import { server } from "../lib/settings";
 
 const ref = React.createRef();
 
 
-function useGenerateBill(patientId,date,gst,paymentMode,medicies){
-    const [loading,setLoading] = React.useState(true)
-    const [error,setError] = React.useState(false)
-    const [invoiceNumber,setInvoiceNumber] = React.useState()
+// function useGenerateBill(patientId,date,gst,paymentMode,medicies){
+//     const [loading,setLoading] = React.useState(true)
+//     const [error,setError] = React.useState(false)
+//     const [invoiceNumber,setInvoiceNumber] = React.useState()
     
-    useEffect(()=>{
-        setLoading(true)
-        client.mutate({
-            mutation:generateBillQuery,
-            variables:{
-                "medicines": medicies,
-                    "userId": patientId,
-                  "date": date,
-                  "gst": gst,
-                  "payment": paymentMode
+//     useEffect(()=>{
+//         setLoading(true)
+//         client.mutate({
+//             mutation:generateBillQuery,
+//             variables:{
+//                 "medicines": medicies,
+//                     "userId": patientId,
+//                   "date": date,
+//                   "gst": gst,
+//                   "payment": paymentMode
               
-            }
-        }).then((d)=>{
-            setInvoiceNumber(d.data.generateBill.invoiceNumber)
-            setLoading(false)
-            setError(true)
-        }).catch((e)=>{
-            setLoading(false)
-            setError(true)
-        })
-    },[])
+//             }
+//         }).then((d)=>{
+//             setInvoiceNumber(d.data.generateBill.invoiceNumber)
+//             setLoading(false)
+//             setError(true)
+//         }).catch((e)=>{
+//             setLoading(false)
+//             setError(true)
+//         })
+//     },[])
 
-    return {loading,invoiceNumber,error}
+//     return {loading,invoiceNumber,error}
     
-}
+// }
 
 const Billingform =() =>{
     const [qlabel,setQlabel] = useState("")
@@ -50,7 +51,7 @@ const Billingform =() =>{
     const [list,setList] = useState([])
     const [active,setActive] = useState("modal")
     const [text,setText] = useState("")
-    const { register, handleSubmit,setValue,getValues } = useForm();
+    const { register, handleSubmit,setValue,getValues,errors } = useForm();
     const {loading,error,data} = useQuery(getAllPatient)
     const product = useSelector(state => state.products);
     const billstore = useSelector(state => state.bills);
@@ -65,6 +66,7 @@ const Billingform =() =>{
     }
 
     const BillToServer=(name,age,gender,date,gst,payment,mlist)=>{
+        // console.log(errors)
         dispatch(generateBill(name,age,gender,date,gst,payment,mlist))
     }
 
@@ -153,7 +155,13 @@ const Billingform =() =>{
 
     return (
         <div style={{maxWidth:'800px',margin:'auto'}}>
-            <form>
+            <style jsx>{`
+                .error_text{
+                    color:red;
+                    font-weight:400
+                }
+            `} </style>
+            {/* <form> */}
             <div>   
                 <h2 className="subtitle" style={{marginTop:"10px",fontWeight:'300'}}>User detail</h2>
             </div>
@@ -161,10 +169,10 @@ const Billingform =() =>{
             <div style={{padding:"10px"}}>
                 <div className="columns is-mobile" style={{display:'flex'}}>
                     <div className="column">
-                        <label className="label">Patient Name</label>
+                        <label className="label">Patient Name <span className="error_text">{errors.patient?.message}</span></label>
                         
 
-                        <input list="patient_name" className="input is-small" ref={register}
+                        <input list="patient_name" className="input is-small" ref={register({required:"(Name is required)"})}
                         //  onChange={()=>setQty(qty)} value={qty} 
                         type="text" name="patient"  placeholder="Patient Name" onChange={selectOption}/>
                         
@@ -176,15 +184,15 @@ const Billingform =() =>{
 
                     </div>
                     <div className="column">
-                        <label className="label">Age</label>
-                        <input className="input is-small" ref={register}
+                        <label className="label">Age <span className="error_text">{errors.age?.message}</span></label>
+                        <input className="input is-small" ref={register({required:"(Age is required)"})}
                         // onChange={()=>setMrp(mrp)} value={mrp} 
                         type="text" name="age" placeholder="Age"/>
                     </div>
                     <input type="hidden" ref={register} name="patientId"/>
                     <div className="column">
-                        <label className="label">Gender</label>
-                        <input className="input is-small" ref={register}
+                        <label className="label">Gender <span className="error_text">{errors.gender?.message}</span></label>
+                        <input className="input is-small" ref={register({required:"(Gender is required)"})}
                         // onChange={()=>setMrp(mrp)} value={mrp} 
                         type="text" name="gender" placeholder="Gender"/>
                     </div>
@@ -197,8 +205,8 @@ const Billingform =() =>{
             
                 <div className="columns">
                     <div className="column">
-                        <label className="label">Payment Mode</label>
-                        <input className="input is-small" ref={register}
+                        <label className="label">Payment Mode <span className="error_text">{errors.payment?.message}</span></label>
+                        <input className="input is-small" ref={register({required:"(this is required)"})}
                         //  onChange={()=>setQty(qty)} value={qty} 
                         type="text" name="payment"  placeholder="Payment Mode"/>
                     </div>
@@ -209,10 +217,10 @@ const Billingform =() =>{
                         type="text" name="gst" placeholder="GST"/>
                     </div>
                     <div className="column">
-                        <label className="label">Date</label>
-                        <input className="input is-small" ref={register}
+                        <label className="label">Date <span className="error_text">{errors.date?.message}</span></label>
+                        <input className="input is-small" ref={register({required:"(Fill date first)"})}
                         // onChange={()=>setMrp(mrp)} value={mrp} 
-                        type="date" name="date" placeholder="date"/>
+                        type="date" name="date" placeholder="date" required/>
                     </div>
                 </div>
             </div>
@@ -223,10 +231,12 @@ const Billingform =() =>{
             </div>
 
             <div style={{padding:"10px"}}>
+                <form onSubmit={handleSubmit(AddRows)}>
                 <div className="columns">
                     <div className="column">
-                        <label className="label">Medicine</label>
-                        <input className="input is-small" list="medicine_name" ref={register} autoComplete="off"
+                        <label className="label">Medicine<span className="error_text">{errors.medicine?.message}</span></label>
+                        {/* {errors.medicine?.message} */}
+                        <input className="input is-small" list="medicine_name" ref={register({required:"(required)"})} autoComplete="off"
                         //  onChange={()=>setQty(qty)} value={qty} 
                         type="text" name="medicine"  placeholder="Medicine" onChange={selectMedicineOption} />
                         
@@ -270,19 +280,20 @@ const Billingform =() =>{
                     </div>
                     <div className="column is-1">
                     {/* <label className="label">Add</label> */}
-                        <div style={{display:'table',height:'100%',width:'100%',textAlign:'center'}} onClick={AddRows}>
+                        <div style={{display:'table',height:'100%',width:'100%',textAlign:'center'}}>
                             <div className="_icon" style={{display:'table-cell',verticalAlign:'bottom'}}>
-                            <div style={{fontSize:'25px',fontWeight:'bolder',cursor:'pointer'}}>+</div>
+                            <button type="submit"  className="button is-small is-link" style={{fontWeight:'bold'}} >+</button>
                             </div>
                         </div>
 
                     </div>
-                </div>    
+                </div>
+                </form>
             </div>
 
 
               
-            </form>
+            {/* </form> */}
 
             <div className="datatable" style={{display:mlist.length?'block':'none',marginTop:'70px'}}>
                 <table className="table is-fullwidth ctable">
@@ -338,7 +349,7 @@ const Billingform =() =>{
                 </>
                 :
                     <>
-                    <a href={`http://localhost:8000/media/${billstore.link}`} target="_blank" className="button is-primary is-small" >Bill</a>
+                    <a href={`${server}/media/${billstore.link}`} target="_blank" className="button is-primary is-small" >Bill</a>
                     <a style={{marginLeft:'30px'}} className="button is-small" onClick={()=>reset()}>Reset</a>
                     </>
                 }

@@ -10,7 +10,7 @@ import  {FontAwesomeIcon}  from '@fortawesome/react-fontawesome'
 import { faTrashAlt,faEdit } from '@fortawesome/free-regular-svg-icons'
 import { generateBill,clearBill } from "../redux_function/actions";
 import { server } from "../lib/settings";
-
+import {BillPageLoading} from '../components/skeleton'
 const ref = React.createRef();
 
 
@@ -57,7 +57,7 @@ const Billingform =() =>{
     const billstore = useSelector(state => state.bills);
     const dispatch = useDispatch()
     if(loading)
-        return <div>Loading..</div>
+        return <div><BillPageLoading/></div>
     const selectOption=(d)=>{
         data.allPatient.map((e)=>{
             if(e.name+" ("+e.age+")" === d.target.value)
@@ -154,11 +154,17 @@ const Billingform =() =>{
     console.log(billstore)
 
     return (
-        <div style={{maxWidth:'800px',margin:'auto'}}>
+        <div>
+            <div className="topHeading">
+                <h2>Billing</h2>
+            </div>
             <style jsx>{`
                 .error_text{
                     color:red;
                     font-weight:400
+                }
+                .is-small{
+                    font-size:0.85rem;
                 }
             `} </style>
             {/* <form> */}
@@ -166,7 +172,7 @@ const Billingform =() =>{
                 <h2 className="subtitle" style={{marginTop:"10px",fontWeight:'300'}}>User detail</h2>
             </div>
             
-            <div style={{padding:"10px"}}>
+            <div>
                 <div className="columns is-mobile" style={{display:'flex'}}>
                     <div className="column">
                         <label className="label">Patient Name <span className="error_text">{errors.patient?.message}</span></label>
@@ -201,7 +207,7 @@ const Billingform =() =>{
             <div>   
                 <h2 className="subtitle" style={{marginTop:"10px",fontWeight:'300'}}>Billing detail</h2>
             </div>
-            <div style={{padding:"10px"}}>
+            <div>
             
                 <div className="columns">
                     <div className="column">
@@ -230,7 +236,7 @@ const Billingform =() =>{
                 <h2 className="subtitle" style={{marginTop:"10px",fontWeight:'300'}}>Add Medicines</h2>
             </div>
 
-            <div style={{padding:"10px"}}>
+            <div>
                 <form onSubmit={handleSubmit(AddRows)}>
                 <div className="columns">
                     <div className="column">

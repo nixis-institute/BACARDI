@@ -98,14 +98,23 @@ function CreateProduct(){
 
     return(
         <Layout>
+            <style jsx>{`
+                .is-small{
+                    font-size:0.85rem;
+                }
+            `}
+            </style>
             <div style={{display:notify?'block':'none'}}  onClick={()=>setNotify(false)}>
                 <div className="notification is-primary">
                 <button className="delete"  onClick={()=>setNotify(false)}></button>
                  product has been uploaded
                 </div>
             </div>
-        <div style={{maxWidth:"600px", margin:"auto"}} className="createform">
-            <h1 className="title">Create New</h1>
+        <div style={{maxWidth:"1000px",}} className="createform">
+            <div className="topHeading">
+                <h2>Create New</h2>
+            </div>
+            
             <form 
                 onSubmit={handleSubmit(onSubmit)}
             >

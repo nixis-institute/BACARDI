@@ -4,12 +4,13 @@ import { useQuery,useLazyQuery } from '@apollo/react-hooks'
 import {reportByDateRangeQuery} from '../lib/graphql'
 import {privateRoute} from '../lib/private_route'
 import { server } from '../lib/settings'
+import {TableLoading} from '../components/skeleton'
 
 const ListofReport = ({min,max}) =>{
     const [getReprot, {loading,error,data}] = useLazyQuery(reportByDateRangeQuery,{variables:{"min":min,"max":max}})
     console.log(data)
     if(loading){
-        return <div>Loading</div>
+        return <div><TableLoading /></div>
     }
     if(error){
         return <div>Error</div>
@@ -38,12 +39,18 @@ const Report = () =>{
              .data{
                  margin-top:50px;
              }
+             .is-small{
+                 font-size:0.85rem;
+             }
             `} 
 
             </style>
-            <div style={{marginTop:'20px'}}>
-                <div style={{maxWidth:'800px',margin:'auto',}}>
-                    <div style={{padding:"10px"}}>
+            <div>
+                <div className="topHeading">
+                    <h2>Reports</h2>
+                </div>
+                <div>
+                    <div>
                         <div className="columns">
                             <div className="column">
                                 <label className="label">From</label>
@@ -66,7 +73,7 @@ const Report = () =>{
 
                     <div className="data">
                     {loading===true
-                    ?(<div style={{textAlign:'center',fontWeight:'bold',fontSize:'20px'}}>Loading...</div>):
+                    ?(<div style={{textAlign:'center',fontWeight:'bold',fontSize:'20px'}}><TableLoading /></div>):
                     data!=undefined?
                     data.report.edges.length?
                     <table className="table is-fullwidth">

@@ -7,7 +7,7 @@ import {AuthProps,privateRoute} from '../lib/private_route'
 import {useState, useEffect} from 'react'
 import {useSelector,useDispatch} from 'react-redux'
 import {getCurrentUser,updateUser} from '../redux_function/actions'
-
+import {FullPageLoading} from '../components/skeleton'
 
 
 const Profile =(props) =>{
@@ -21,38 +21,10 @@ const Profile =(props) =>{
     const userStore = useSelector(state => state.user);
     const dispatch = useDispatch()
 
-    useEffect(()=>{
-        
+    useEffect(()=>{        
         dispatch(getCurrentUser())    
-            // let user = data.user
-            // console.log(user)
-            // setValue([
-            //     {"email" :user.username},
-            //     {"phone":user.profile.contactNumber},
-            //     {"gst":user.profile.GSTNo},
-            //     {"tin":user.profile.TINNo},
-            //     {"firm":user.profile.firmName},
-            //     {"address":user.profile.address}
-            // ])
-        
 
-        
     },[])
-
-    // if(loading)
-    // {
-    //     return <div>Loading...</div>
-    // }
-
-    // var user = data.user
-    // setValue([
-    //     {"email" :user.username},
-    //     {"phone":user.profile.contactNumber},
-    //     {"gst":user.profile.GSTNo},
-    //     {"tin":user.profile.TINNo},
-    //     {"firm":user.profile.firmName},
-    //     {"address":user.profile.address}
-    // ])
 
 
     
@@ -67,40 +39,27 @@ const Profile =(props) =>{
             setIsEdit(true)
         }
 
-        // console.log(data)
-
-        
-
-        // updateUser({
-        //     variables:{
-        //         "gst": data.gst,
-        //         "tin": data.tin,
-        //         "firstName": data.firstName,
-        //         "lastName": data.lastName,
-        //         "phone": data.phone,
-        //         "email": data.email,
-        //         "firm": data.firm,
-        //         "address": data.address
-        //     }
-        // })
     }
 
     // console.log(data.user)
     console.log(userStore)
     if(userStore.loading)
-    return <div>Loading...</div>
+    return <div><FullPageLoading/></div>
     
     const user = userStore.user
 
 
     return (
-    <Layout title="Profile">
-        <div style={{marginTop:'20px'}}>
-        <div style={{maxWidth:'700px',margin:'auto'}}>
-            <div>
-                <h1 className="title">Welcome {user.firstName} {user.lastName}</h1>
+    
+        <div>
+            <div className="topHeading">
+                <h2>Welcome {user.firstName} {user.lastName}</h2>
             </div>
-            <div style={{marginTop:'40px'}}>
+        <div>
+            {/* <div>
+                <h1 className="title">Welcome {user.firstName} {user.lastName}</h1>
+            </div> */}
+            <div>
                 {/* <div>info</div> */}
                 <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="out">
@@ -257,8 +216,17 @@ const Profile =(props) =>{
             </div>
         </div>
         </div>
+    
+    )
+}
+
+const P = () =>{
+    return(
+    <Layout title="Profile">
+        <Profile />
     </Layout>
     )
 }
 
-export default privateRoute(Profile);
+
+export default privateRoute(P);

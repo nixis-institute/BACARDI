@@ -60,11 +60,11 @@ import  {currentUser} from '../redux_function/actions'
 
         <div id="navbarBasicExample" className="navbar-menu">
           <div className="navbar-start">
-           <Link href="/create">
-            <a className="navbar-item">
+           {/* <Link href="/create">
+            <a className="navbar-item" style={{fontSize:"13px",fontWeight:"bold"}}>
                 Add New
                 </a>
-            </Link>
+            </Link> */}
             {/* <a className="navbar-item">
               Home
             </a>
@@ -97,18 +97,16 @@ import  {currentUser} from '../redux_function/actions'
             </div> */}
           </div>
       
-          <div className="navbar-end">
+          {/* <div className="navbar-end">
             <div className="navbar-item">
               <div className="buttons">
                 <a className="">
-                  {/* <strong>{data.currentUser.username}</strong> */}
                 </a>
-                {/* <a className="button is-light">
-                  Log in
-                </a> */}
               </div>
             </div>
-          </div>
+          </div> */}
+
+          
         </div>
         </div>
         </div>

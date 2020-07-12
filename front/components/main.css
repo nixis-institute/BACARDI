@@ -8,15 +8,31 @@
     width: 100%;
 } */
 
-.createform{
+
+.topHeading{
+    margin-bottom: 20px;
+}
+
+.topHeading h2{
+    font-weight: bold;
+    font-size: 30px;
+    /* margin-bottom: 20px; */
     padding: 10px;
 }
+
+/* .createform{
+    padding: 10px;
+} */
 .createform div{
     width: 100%;
 }
 .i_row div{
     padding: 0px 10px 0px 10px;
     width: 100%;
+}
+.main-container{
+    max-width: 1000px;
+    padding: 0 2em 2rem 2rem;
 }
 
 
@@ -88,3 +104,11 @@ align-self: center;
 .container{
     padding-top: 10px;
 }
+.columns{
+    margin: 0 !important;
+}
+
+@media only screen and (max-width: 600px) {
+    .main-container{
+        padding: 0 10px 10px 10px;
+    }}

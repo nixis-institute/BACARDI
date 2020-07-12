@@ -37,6 +37,7 @@
     "react-fontawesome": "^1.7.1",
     "react-hook-form": "^5.7.2",
     "react-loading-overlay": "^1.0.1",
+    "react-loading-skeleton": "^2.1.1",
     "react-redux": "^7.2.0",
     "react-to-pdf": "0.0.11",
     "recompose": "^0.30.0",

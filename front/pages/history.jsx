@@ -4,6 +4,7 @@ import { useQuery,useLazyQuery } from '@apollo/react-hooks'
 import {historyBySlugQuery} from '../lib/graphql'
 import {privateRoute} from '../lib/private_route'
 import { server } from '../lib/settings'
+import {TableLoading} from '../components/skeleton'
 const Result = ({loading,data})=>{
     return(
         <div className="data">
@@ -16,7 +17,7 @@ const Result = ({loading,data})=>{
              }
             `} </style>
             {loading===true
-            ?(<div style={{textAlign:'center',fontWeight:'bold',fontSize:'20px'}}>Loading...</div>):
+            ?(<div style={{textAlign:'center',fontWeight:'bold',fontSize:'20px'}}><TableLoading /></div>):
             data!=undefined?
             data.history.edges.length?
             <table className="table is-fullwidth">
@@ -60,12 +61,15 @@ const History =() =>{
     const [getHistory, {loading,error,data}] = useLazyQuery(historyBySlugQuery)    
     return (
         <Layout title="History">
-            <div style={{padding:"10px"}}>
+            <div>
                 {/* <div className="columns">
                     <input type="text" className="input is-small" placeholder="Search Invoice/Name"/>
                 </div> */}
-            <div style={{'marginTop':'20px'}}>
-                <div style={{maxWidth:'700px',margin:'auto',}}>
+            <div>
+                <div className="topHeading">
+                    <h2>History</h2>
+                </div>
+                <div>
                     <form>
                     <div>
                         <div className="columns">
